@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Scraping / Data (Optional: comment out if you want to keep data in git)
+# times/
+data/
+md/
+spiders/
+# assets/times/
+# assets/campeonatos/
+# assets/canais/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Misc
+.env
+*.log
