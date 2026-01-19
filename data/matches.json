@@ -1657,7 +1657,7 @@
       "matchURL": "/paulistao26/15-02-2026/sao-bernardo-fc-vs-corinthians/"
     },
     {
-      "id": "carioca26-flamengo-vs-portuguesarj-11-01-2026",
+      "id": "carioca26-flamengo-vs-portuguesa-rj-11-01-2026",
       "tournament": "carioca26",
       "homeTeam": "flamengo",
       "awayTeam": "portuguesa-rj",
@@ -1827,9 +1827,9 @@
       "matchURL": "/carioca26/15-01-2026/sampaio-correa-vs-nova-iguacu/"
     },
     {
-      "id": "carioca26-portuguesarj-vs-botafogo-15-01-2026",
+      "id": "carioca26-portuguesa-rj-vs-botafogo-15-01-2026",
       "tournament": "carioca26",
-      "homeTeam": "portuguesarj",
+      "homeTeam": "portuguesa-rj",
       "awayTeam": "botafogo",
       "matchDate": "2026-01-15T19:00:00-03:00",
       "round": "1ª Rodada",
@@ -1849,7 +1849,7 @@
           "type": "pay-per-view"
         }
       ],
-      "matchURL": "/carioca26/15-01-2026/portuguesarj-vs-botafogo/"
+      "matchURL": "/carioca26/15-01-2026/portuguesa-rj-vs-botafogo/"
     },
     {
       "id": "carioca26-boavista-vs-fluminense-17-01-2026",
@@ -1993,9 +1993,9 @@
       "matchURL": "/carioca26/18-01-2026/sampaio-correa-vs-botafogo/"
     },
     {
-      "id": "carioca26-portuguesarj-vs-marica-18-01-2026",
+      "id": "carioca26-portuguesa-rj-vs-marica-18-01-2026",
       "tournament": "carioca26",
-      "homeTeam": "portuguesarj",
+      "homeTeam": "portuguesa-rj",
       "awayTeam": "marica",
       "matchDate": "2026-01-18T20:30:00-03:00",
       "round": "2ª Rodada",
@@ -2015,7 +2015,7 @@
           "type": "pay-per-view"
         }
       ],
-      "matchURL": "/carioca26/18-01-2026/portuguesarj-vs-marica/"
+      "matchURL": "/carioca26/18-01-2026/portuguesa-rj-vs-marica/"
     },
     {
       "id": "carioca26-flamengo-vs-vasco-21-01-2026",
@@ -2159,10 +2159,10 @@
       "matchURL": "/carioca26/22-01-2026/madureira-vs-sampaio-correa/"
     },
     {
-      "id": "carioca26-boavista-vs-portuguesarj-22-01-2026",
+      "id": "carioca26-boavista-vs-portuguesa-rj-22-01-2026",
       "tournament": "carioca26",
       "homeTeam": "boavista",
-      "awayTeam": "portuguesarj",
+      "awayTeam": "portuguesa-rj",
       "matchDate": "2026-01-22T19:00:00-03:00",
       "round": "3ª Rodada",
       "status": "scheduled",
@@ -2181,7 +2181,7 @@
           "type": "pay-per-view"
         }
       ],
-      "matchURL": "/carioca26/22-01-2026/boavista-vs-portuguesarj/"
+      "matchURL": "/carioca26/22-01-2026/boavista-vs-portuguesa-rj/"
     },
     {
       "id": "carioca26-botafogo-vs-bangu-24-01-2026",
@@ -2300,10 +2300,10 @@
       "matchURL": "/carioca26/26-01-2026/nova-iguacu-vs-volta-redonda/"
     },
     {
-      "id": "carioca26-madureira-vs-portuguesarj-26-01-2026",
+      "id": "carioca26-madureira-vs-portuguesa-rj-26-01-2026",
       "tournament": "carioca26",
       "homeTeam": "madureira",
-      "awayTeam": "portuguesarj",
+      "awayTeam": "portuguesa-rj",
       "matchDate": "2026-01-26T17:00:00-03:00",
       "round": "4ª Rodada",
       "status": "scheduled",
@@ -2322,7 +2322,7 @@
           "type": "pay-per-view"
         }
       ],
-      "matchURL": "/carioca26/26-01-2026/madureira-vs-portuguesarj/"
+      "matchURL": "/carioca26/26-01-2026/madureira-vs-portuguesa-rj/"
     },
     {
       "id": "carioca26-marica-vs-sampaiocorrea-27-01-2026",
@@ -2541,9 +2541,9 @@
       "matchURL": "/carioca26/07-02-2026/bangu-vs-boavista/"
     },
     {
-      "id": "carioca26-portuguesarj-vs-novaiguacu-07-02-2026",
+      "id": "carioca26-portuguesa-rj-vs-novaiguacu-07-02-2026",
       "tournament": "carioca26",
-      "homeTeam": "portuguesarj",
+      "homeTeam": "portuguesa-rj",
       "awayTeam": "novaiguacu",
       "matchDate": "2026-02-07T17:00:00-03:00",
       "round": "6ª Rodada",
@@ -2563,7 +2563,7 @@
           "type": "pay-per-view"
         }
       ],
-      "matchURL": "/carioca26/07-02-2026/portuguesarj-vs-nova-iguacu/"
+      "matchURL": "/carioca26/07-02-2026/portuguesa-rj-vs-nova-iguacu/"
     },
     {
       "id": "carioca26-fluminense-vs-marica-08-02-2026",
