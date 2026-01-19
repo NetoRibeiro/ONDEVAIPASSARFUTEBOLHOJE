@@ -51,7 +51,7 @@ Configure o NGINX para servir o site e lidar com as URLs amigáveis:
    ```nginx
    server {
        listen 80;
-       server_name seu-dominio.com www.seu-dominio.com;
+       server_name ONDEVAIPASSARFUTEBOLHOJE.COM.BR www.ONDEVAIPASSARFUTEBOLHOJE.COM.BR;
        root /var/www/ONDEVAIPASSARFUTEBOLHOJE;
        index index.html;
 
