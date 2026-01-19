@@ -4,20 +4,21 @@ A high-performance, mobile-first sports utility website showing today's football
 
 ## 🎯 Features
 
+- **Static Site Generation (SSG)**: Pre-rendered match pages for near-instant loading and 100% SEO coverage
+- **Clean URLs**: SEO-friendly Portuguese URLs like `/paulistao26/18-01-2026/corinthians-vs-santos/`
 - **Dark Mode Design**: Professional stadium aesthetic with high-contrast colors
 - **LIVE Indicators**: Pulsing animation for matches currently in progress
 - **Quick Access**: One-click filtering by top teams (Flamengo, Palmeiras, Corinthians, etc.)
 - **Real-time Search**: Instant filtering by team, league, or channel
 - **Match Details**: Complete lineups, statistics, and broadcasting information
-- **SEO Optimized**: Portuguese URLs and meta tags for maximum discoverability
 - **Mobile-First**: Responsive design that works perfectly on all devices
 
 ## 🚀 Quick Start
 
-1. Open `index.html` in your web browser
-2. Browse today's matches
-3. Use the search bar or team chips to filter
-4. Click on any match for detailed information
+1. Update `data/matches.json` with new match data
+2. Run the SSG script: `.venv\Scripts\python spiders/generate_match_pages.py`
+3. Open `index.html` in your web browser
+4. Click on any match to see the statically generated detail page
 
 ## 📁 Project Structure
 

@@ -31,31 +31,30 @@ Outros campeonatos direcionam para uma página "Em Construção" com formulário
 - Formatação de datas em português
 - Funções auxiliares para matches, teams e tournaments
 
-### 3. **Páginas Criadas**
+### 3. **Páginas Criadas e Static Site Generation (SSG)**
+✅ **Novo Fluxo de Páginas de Jogo**:
+Em vez de carregamento dinâmico lento, agora usamos SSG para criar arquivos HTML físicos para cada jogo.
+
+- **Script**: `spiders/generate_match_pages.py`
+- **Comando**: `.venv\Scripts\python spiders/generate_match_pages.py`
+- **Output**: Cria diretórios como `/{tournament}/{dd-mm-yyyy}/{teams-slug}/index.html`
+
+**URL Format (Pretty URLs):** `/{tournament}/{dd-mm-yyyy}/{teams-slug}/`
+**Exemplo:** `/paulistao26/18-01-2026/guarani-vs-santos/`
+
+**Benefícios:**
+- ⚡ **Velocidade**: Carregamento instantâneo (0ms de processamento JS para exibir dados básicos).
+- 🔍 **SEO**: 100% indexável pelo Google com metatags pré-injetadas.
+- 🛠️ **Robustez**: `matchURL` em `matches.json` garante navegação sem erros 404.
 
 #### ✅ Páginas de Campeonatos:
 - `/campeonatos/paulistao26.html` - Paulistão 2026
 - `/campeonatos/carioca26.html` - Carioca 2026
 
 **Funcionalidades:**
-- Lista de próximos jogos
-- Destaque para jogos ao vivo
-- Informações do campeonato
-- Design responsivo
-
-#### ✅ Página de Jogo (Dinâmica):
-- `/match.html` - Template para detalhes de jogos
-
-**URL Format:** `/{tournament}{year}/{teamA}-vs-{teamB}/{dd-mm-yyyy}`
-
-**Exemplo:** `/paulistao26/saopaulo-vs-corinthians/18-01-2026`
-
-**Funcionalidades:**
-- Hero com logos dos times
-- Placar ao vivo (se aplicável)
-- Canais de transmissão
-- Informações do estádio
-- Data e horário formatados
+- Navegação direta para arquivos estáticos.
+- Destaque para jogos ao vivo.
+- Logos com fallback automático.
 
 #### ✅ Página de Time (Dinâmica):
 - `/team.html` - Template para páginas de times
