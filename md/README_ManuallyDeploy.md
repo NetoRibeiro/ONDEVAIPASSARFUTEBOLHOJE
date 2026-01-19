@@ -38,34 +38,25 @@ No menu **Source** do seu serviço no Easypanel:
 
 ---
 
-## 🛠️ Passo 4: Configurar Build (Nixpacks)
+## 🛠️ Passo 4: Corrigindo o Erro de Build (Dockerfile)
 
-No Easypanel, o **Nixpacks** tentará detectar seu site sozinho. Com base na sua tela, preencha assim:
+O erro `Error: No start command could be found` acontece porque o **Nixpacks** viu o arquivo `requirements.txt` e achou que seu site era um aplicativo Python, tentando "iniciar" um servidor que não existe.
 
-1.  **Versão**: Pode manter a que já está (ex: `1.41.0`).
-2.  **Comando de Instalação**: Deixe **vazio**.
-3.  **Comando de Build**: Deixe **vazio** (pois você já gerou as páginas localmente e deu Push).
-4.  **Comando de Início**: Deixe **vazio**. (O Nixpacks detectará o `index.html` e usará um servidor Nginx interno).
-5.  **Pacotes Nix**: Deixe **vazio**.
-6.  **Pacotes APT**: Deixe **vazio**.
+Para resolver isso de forma definitiva e garantir as **URLs Amigáveis**, vamos usar a opção **Dockerfile**:
 
-### E se não funcionar de primeira?
-Se o site não abrir, é porque o Nixpacks não "adivinhou" que é um site estático. Nesse caso, use a **Alternativa infalível**:
-
-### Alternativa: Dockerfile (Recomendada para sites estáticos)
-No Easypanel, o **Dockerfile** é o método mais garantido para arquivos HTML simples:
-
-1.  No seu VS Code, crie um arquivo chamado `Dockerfile` (sem extensão) na raiz com este código:
-    ```dockerfile
-    FROM nginx:alpine
-    COPY . /usr/share/nginx/html
+1.  Eu já criei os arquivos `Dockerfile` e `nginx.conf` na raiz do seu projeto.
+2.  Faça o **Push** desses novos arquivos para o GitHub:
+    ```powershell
+    git add .
+    git commit -m "Fix: Add Dockerfile and Nginx config for Easypanel"
+    git push
     ```
-2.  Dê `git add .`, `git commit` e `git push`.
-3.  No Easypanel, mude o **Build Method** de Nixpacks para **Dockerfile**.
-4.  Clique em **Salvar** e **Deploy**.
+3.  No painel do **Easypanel**, vá nas configurações de **Build**.
+4.  Mude o **Build Method** de Nixpacks para **Dockerfile**.
+5.  Clique em **Salvar** e depois em **Deploy**.
 
-> [!TIP]
-> O Dockerfile acima pega todos os seus arquivos (incluindo as pastas de jogos geradas) e os coloca dentro de um servidor Nginx super rápido e estável.
+> [!NOTE]
+> Usando o Dockerfile, nós garantimos que o servidor Nginx saiba exatamente como lidar com as URLs sem `.html` (ex: `/paulistao26/` em vez de `/paulistao26.html`).
 
 ---
 
