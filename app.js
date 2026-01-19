@@ -2,109 +2,15 @@
 // ONDE VAI PASSAR FUTEBOL HOJE - App Logic
 // ============================================
 
-// === MOCK DATA ===
-const mockMatches = [
-  {
-    id: 1,
-    homeTeam: {
-      name: 'Flamengo',
-      logo: 'assets/times/flamengo.png'
-    },
-    awayTeam: {
-      name: 'Vasco',
-      logo: 'assets/times/vasco.png'
-    },
-    time: '16:00',
-    league: 'Campeonato Carioca',
-    isLive: true,
-    channels: [
-      { name: 'SporTV', logo: 'assets/canais/sportv.png' },
-      { name: 'Premiere', logo: '' }
-    ],
-    slug: 'flamengo-x-vasco-16-jan-2026'
-  },
-  {
-    id: 2,
-    homeTeam: {
-      name: 'Palmeiras',
-      logo: 'assets/times/palmeiras.png'
-    },
-    awayTeam: {
-      name: 'Corinthians',
-      logo: 'assets/times/corinthians.png'
-    },
-    time: '18:30',
-    league: 'Paulistão',
-    isLive: false,
-    channels: [
-      { name: 'Record', logo: '' },
-      { name: 'CazéTV', logo: '' }
-    ],
-    slug: 'palmeiras-x-corinthians-16-jan-2026'
-  },
-  {
-    id: 3,
-    homeTeam: {
-      name: 'São Paulo',
-      logo: 'assets/times/sao-paulo.png'
-    },
-    awayTeam: {
-      name: 'Santos',
-      logo: 'assets/times/santos.png'
-    },
-    time: '20:00',
-    league: 'Paulistão',
-    isLive: false,
-    channels: [
-      { name: 'TNT Sports', logo: '' },
-      { name: 'Max', logo: '' }
-    ],
-    slug: 'sao-paulo-x-santos-16-jan-2026'
-  },
-  {
-    id: 4,
-    homeTeam: {
-      name: 'Botafogo',
-      logo: 'assets/times/botafogo.png'
-    },
-    awayTeam: {
-      name: 'Fluminense',
-      logo: 'assets/times/fluminense.png'
-    },
-    time: '21:30',
-    league: 'Campeonato Carioca',
-    isLive: false,
-    channels: [
-      { name: 'Band', logo: '' },
-      { name: 'SporTV', logo: 'assets/canais/sportv.png' }
-    ],
-    slug: 'botafogo-x-fluminense-16-jan-2026'
-  },
-  {
-    id: 5,
-    homeTeam: {
-      name: 'Atlético-MG',
-      logo: 'assets/times/atletico-mg.png'
-    },
-    awayTeam: {
-      name: 'Cruzeiro',
-      logo: 'assets/times/cruzeiro.png'
-    },
-    time: '19:00',
-    league: 'Campeonato Mineiro',
-    isLive: false,
-    channels: [
-      { name: 'Globo', logo: '' },
-      { name: 'Premiere', logo: '' }
-    ],
-    slug: 'atletico-mg-x-cruzeiro-16-jan-2026'
-  }
-];
-
 // === STATE MANAGEMENT ===
 let currentDate = new Date();
-let filteredMatches = [...mockMatches];
-let activeFilter = 'todos';
+let allMatches = [];
+let filteredMatches = [];
+let activeTeamFilter = 'todos';
+let activeTournamentFilter = 'todos';
+let teamsData = [];
+let tournamentsData = [];
+let useDateFilter = true; // When team is selected, this becomes false
 
 // === DOM ELEMENTS ===
 const elements = {
@@ -112,6 +18,8 @@ const elements = {
   currentDateEl: document.getElementById('currentDate'),
   prevDayBtn: document.getElementById('prevDay'),
   nextDayBtn: document.getElementById('nextDay'),
+  dateSelector: null, // Will be set after DOM loads
+  tournamentFilter: document.getElementById('tournamentFilter'),
   matchesContainer: document.getElementById('matchesContainer'),
   emptyState: document.getElementById('emptyState'),
   loadingState: document.getElementById('loadingState'),
@@ -143,51 +51,102 @@ function normalizeString(str) {
     .replace(/[\u0300-\u036f]/g, '');
 }
 
+function isSameDay(date1, date2) {
+  return date1.getFullYear() === date2.getFullYear() &&
+         date1.getMonth() === date2.getMonth() &&
+         date1.getDate() === date2.getDate();
+}
+
+// === DATA LOADING ===
+async function loadData() {
+  try {
+    const [matchesRes, teamsRes, tournamentsRes] = await Promise.all([
+      fetch('data/matches.json'),
+      fetch('data/teams.json'),
+      fetch('data/tournaments.json')
+    ]);
+
+    const matchesData = await matchesRes.json();
+    const teamsDataRes = await teamsRes.json();
+    const tournamentsDataRes = await tournamentsRes.json();
+
+    allMatches = matchesData.matches;
+    teamsData = teamsDataRes.teams;
+    tournamentsData = tournamentsDataRes.tournaments;
+
+    return true;
+  } catch (error) {
+    console.error('Error loading data:', error);
+    return false;
+  }
+}
+
 // === MATCH CARD COMPONENT ===
 function createMatchCard(match) {
-  const liveIndicator = match.isLive 
+  // Get team and tournament data
+  const homeTeam = teamsData.find(t => t.id === match.homeTeam || t.slug === match.homeTeam);
+  const awayTeam = teamsData.find(t => t.id === match.awayTeam || t.slug === match.awayTeam);
+  const tournament = tournamentsData.find(t => t.id === match.tournament || t.slug === match.tournament);
+
+  // Format date and time
+  const matchDate = new Date(match.matchDate);
+  const time = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  const dateStr = matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+
+  const liveIndicator = match.isLive
     ? `<div class="live-indicator">
          <span class="live-dot"></span>
          AO VIVO
        </div>`
     : '';
-  
-  const channelBadges = match.channels.map(channel => {
-    const logoHtml = channel.logo 
-      ? `<img src="${channel.logo}" alt="${channel.name}" class="channel-logo">`
+
+  const channelBadges = match.broadcasting.map(channel => {
+    const logoHtml = channel.logo
+      ? `<img src="${channel.logo}" alt="${channel.channel}" class="channel-logo">`
       : '';
     return `
       <span class="channel-badge">
         ${logoHtml}
-        ${channel.name}
+        ${channel.channel}
       </span>
     `;
   }).join('');
-  
+
+  // Score display for live/finished matches (between teams)
+  const hasScore = match.score && (match.score.home !== null && match.score.away !== null);
+  const centerDisplay = hasScore
+    ? `<div class="match-score">
+         <span class="score">${match.score.home}</span>
+         <span class="score-separator">x</span>
+         <span class="score">${match.score.away}</span>
+       </div>`
+    : `<span class="vs">VS</span>`;
+
   return `
     <article class="match-card ${match.isLive ? 'live' : ''}" data-match-id="${match.id}">
       <div class="match-header">
-        <div class="match-time">
-          <span class="time">${match.time}</span>
-          <span class="league">${match.league}</span>
+        <div class="match-info">
+          <span class="date">${dateStr}</span>
+          <span class="time">${time}</span>
+          <span class="league">${tournament?.shortName || tournament?.name || match.tournament}</span>
         </div>
         ${liveIndicator}
       </div>
-      
+
       <div class="match-teams">
         <div class="team">
-          <img src="${match.homeTeam.logo}" alt="${match.homeTeam.name}" class="team-logo">
-          <span class="team-name">${match.homeTeam.name}</span>
+          <img src="${homeTeam?.logo || ''}" alt="${homeTeam?.name || match.homeTeam}" class="team-logo" onerror="this.style.display='none'">
+          <span class="team-name">${homeTeam?.name || match.homeTeam}</span>
         </div>
-        
-        <span class="vs">VS</span>
-        
+
+        ${centerDisplay}
+
         <div class="team">
-          <img src="${match.awayTeam.logo}" alt="${match.awayTeam.name}" class="team-logo">
-          <span class="team-name">${match.awayTeam.name}</span>
+          <img src="${awayTeam?.logo || ''}" alt="${awayTeam?.name || match.awayTeam}" class="team-logo" onerror="this.style.display='none'">
+          <span class="team-name">${awayTeam?.name || match.awayTeam}</span>
         </div>
       </div>
-      
+
       <div class="match-broadcast">
         <span class="broadcast-label">Onde Assistir:</span>
         <div class="channels">
@@ -211,11 +170,9 @@ function renderMatches(matches) {
   elements.emptyState.classList.add('hidden');
   elements.matchesContainer.classList.remove('hidden');
   
-  // Sort matches by time
+  // Sort matches by matchDate
   const sortedMatches = [...matches].sort((a, b) => {
-    const timeA = a.time.split(':').map(Number);
-    const timeB = b.time.split(':').map(Number);
-    return (timeA[0] * 60 + timeA[1]) - (timeB[0] * 60 + timeB[1]);
+    return new Date(a.matchDate) - new Date(b.matchDate);
   });
   
   sortedMatches.forEach(match => {
@@ -226,7 +183,7 @@ function renderMatches(matches) {
   document.querySelectorAll('.match-card').forEach(card => {
     card.addEventListener('click', () => {
       const matchId = card.dataset.matchId;
-      const match = mockMatches.find(m => m.id == matchId);
+      const match = allMatches.find(m => m.id == matchId);
       if (match) {
         navigateToMatchDetail(match);
       }
@@ -239,109 +196,200 @@ function updateDateDisplay() {
 }
 
 // === FILTER & SEARCH FUNCTIONS ===
-function filterMatches(searchTerm = '', teamFilter = 'todos') {
-  let matches = [...mockMatches];
-  
-  // Filter by team
-  if (teamFilter !== 'todos') {
+function filterMatches() {
+  const searchTerm = elements.searchInput?.value || '';
+  let matches = [...allMatches];
+
+  // Filter by date ONLY if no team is selected (todos means use date filter)
+  if (useDateFilter) {
     matches = matches.filter(match => {
-      const homeTeamNorm = normalizeString(match.homeTeam.name);
-      const awayTeamNorm = normalizeString(match.awayTeam.name);
-      const filterNorm = normalizeString(teamFilter);
-      return homeTeamNorm.includes(filterNorm) || awayTeamNorm.includes(filterNorm);
+      const matchDate = new Date(match.matchDate);
+      return isSameDay(matchDate, currentDate);
     });
   }
-  
+
+  // Filter by tournament
+  if (activeTournamentFilter !== 'todos') {
+    matches = matches.filter(match => match.tournament === activeTournamentFilter);
+  }
+
+  // Filter by team
+  if (activeTeamFilter !== 'todos') {
+    matches = matches.filter(match => {
+      const homeTeam = teamsData.find(t => t.id === match.homeTeam);
+      const awayTeam = teamsData.find(t => t.id === match.awayTeam);
+
+      if (!homeTeam && !awayTeam) return false;
+
+      const homeTeamId = match.homeTeam;
+      const awayTeamId = match.awayTeam;
+
+      // Match by team ID or slug
+      return homeTeamId === activeTeamFilter ||
+             awayTeamId === activeTeamFilter ||
+             homeTeam?.slug === activeTeamFilter ||
+             awayTeam?.slug === activeTeamFilter;
+    });
+  }
+
   // Filter by search term
   if (searchTerm) {
     const searchNorm = normalizeString(searchTerm);
     matches = matches.filter(match => {
-      const homeTeamNorm = normalizeString(match.homeTeam.name);
-      const awayTeamNorm = normalizeString(match.awayTeam.name);
-      const leagueNorm = normalizeString(match.league);
-      const channelsNorm = match.channels.map(c => normalizeString(c.name)).join(' ');
-      
+      const homeTeam = teamsData.find(t => t.id === match.homeTeam);
+      const awayTeam = teamsData.find(t => t.id === match.awayTeam);
+      const tournament = tournamentsData.find(t => t.id === match.tournament);
+
+      const homeTeamNorm = homeTeam ? normalizeString(homeTeam.name) : '';
+      const awayTeamNorm = awayTeam ? normalizeString(awayTeam.name) : '';
+      const tournamentNorm = tournament ? normalizeString(tournament.name) : '';
+      const channelsNorm = match.broadcasting.map(c => normalizeString(c.channel)).join(' ');
+
       return homeTeamNorm.includes(searchNorm) ||
              awayTeamNorm.includes(searchNorm) ||
-             leagueNorm.includes(searchNorm) ||
+             tournamentNorm.includes(searchNorm) ||
              channelsNorm.includes(searchNorm);
     });
   }
-  
+
   filteredMatches = matches;
   renderMatches(filteredMatches);
+  updateDateSelectorState();
+}
+
+function updateDateSelectorState() {
+  // Disable date selector when a team is selected
+  if (elements.dateSelector) {
+    if (useDateFilter) {
+      elements.dateSelector.classList.remove('disabled');
+    } else {
+      elements.dateSelector.classList.add('disabled');
+    }
+  }
 }
 
 // === NAVIGATION ===
 function navigateToMatchDetail(match) {
-  // In a real implementation, this would navigate to a detail page
-  // For now, we'll just show an alert
-  alert(`Navegando para: /onde-assistir-${match.slug}\n\nEsta página mostraria:\n- Escalações completas\n- Estatísticas do confronto\n- Todos os canais de transmissão\n- Histórico entre os times`);
+  // Build URL: campeonatos/{tournament}/{home-team}-vs-{away-team}/{dd-mm-yyyy}
+  const matchDate = new Date(match.matchDate);
+  const day = String(matchDate.getDate()).padStart(2, '0');
+  const month = String(matchDate.getMonth() + 1).padStart(2, '0');
+  const year = matchDate.getFullYear();
+  const dateSlug = `${day}-${month}-${year}`;
+
+  const url = `match.html?t=${match.tournament}&m=${match.homeTeam}-vs-${match.awayTeam}&d=${dateSlug}`;
+
+  // Navigate to match detail page
+  window.location.href = url;
 }
 
 // === EVENT HANDLERS ===
 function handleSearch(e) {
-  const searchTerm = e.target.value;
-  filterMatches(searchTerm, activeFilter);
+  filterMatches();
 }
 
 function handleTeamFilter(e) {
   const chip = e.target.closest('.team-chip');
   if (!chip) return;
-  
+
   const team = chip.dataset.team;
-  
+
   // Update active state
   elements.quickAccessChips.forEach(c => c.classList.remove('active'));
   chip.classList.add('active');
-  
-  activeFilter = team;
-  filterMatches(elements.searchInput.value, team);
+
+  activeTeamFilter = team;
+
+  // When a team is selected (not "todos"), disable date filter
+  // When "todos" is selected, enable date filter
+  useDateFilter = (team === 'todos');
+
+  filterMatches();
+}
+
+function handleTournamentFilter(e) {
+  activeTournamentFilter = e.target.value;
+  filterMatches();
 }
 
 function handleDateChange(direction) {
+  if (!useDateFilter) return; // Don't change date if team filter is active
+
   if (direction === 'prev') {
     currentDate.setDate(currentDate.getDate() - 1);
   } else {
     currentDate.setDate(currentDate.getDate() + 1);
   }
-  
+
   updateDateDisplay();
-  
-  // In a real app, this would fetch matches for the new date
-  // For now, we'll just show a loading state briefly
-  elements.loadingState.classList.remove('hidden');
-  elements.matchesContainer.classList.add('hidden');
-  
-  setTimeout(() => {
-    elements.loadingState.classList.add('hidden');
-    renderMatches(filteredMatches);
-  }, 500);
+  filterMatches();
 }
 
 // === INITIALIZATION ===
-function init() {
+async function init() {
+  // Get date selector element
+  elements.dateSelector = document.querySelector('.date-selector');
+
   // Set initial date
   updateDateDisplay();
-  
-  // Render initial matches
-  renderMatches(mockMatches);
-  
+
+  // Show loading state
+  if (elements.loadingState) {
+    elements.loadingState.classList.remove('hidden');
+  }
+
+  // Load data from JSON files
+  const dataLoaded = await loadData();
+
+  if (!dataLoaded) {
+    if (elements.emptyState) {
+      elements.emptyState.classList.remove('hidden');
+      elements.emptyState.innerHTML = '<p>Erro ao carregar dados. Tente novamente mais tarde.</p>';
+    }
+    if (elements.loadingState) {
+      elements.loadingState.classList.add('hidden');
+    }
+    return;
+  }
+
+  // Hide loading state
+  if (elements.loadingState) {
+    elements.loadingState.classList.add('hidden');
+  }
+
+  // Filter and render matches for today
+  filterMatches();
+
   // Set first chip as active
   if (elements.quickAccessChips.length > 0) {
     elements.quickAccessChips[0].classList.add('active');
   }
-  
+
   // Event listeners
-  elements.searchInput.addEventListener('input', handleSearch);
-  elements.prevDayBtn.addEventListener('click', () => handleDateChange('prev'));
-  elements.nextDayBtn.addEventListener('click', () => handleDateChange('next'));
-  
-  // Quick access chips
-  document.getElementById('quickAccess').addEventListener('click', handleTeamFilter);
-  
+  if (elements.searchInput) {
+    elements.searchInput.addEventListener('input', handleSearch);
+  }
+  if (elements.prevDayBtn) {
+    elements.prevDayBtn.addEventListener('click', () => handleDateChange('prev'));
+  }
+  if (elements.nextDayBtn) {
+    elements.nextDayBtn.addEventListener('click', () => handleDateChange('next'));
+  }
+
+  // Tournament filter
+  const tournamentFilterEl = document.getElementById('tournamentFilter');
+  if (tournamentFilterEl) {
+    tournamentFilterEl.addEventListener('change', handleTournamentFilter);
+  }
+
+  // Quick access chips (team filter)
+  const quickAccessEl = document.getElementById('quickAccess');
+  if (quickAccessEl) {
+    quickAccessEl.addEventListener('click', handleTeamFilter);
+  }
+
   console.log('⚽ Onde Vai Passar Futebol Hoje - Initialized');
-  console.log(`📅 Showing ${mockMatches.length} matches for ${formatDate(currentDate)}`);
+  console.log(`📅 Showing ${allMatches.length} matches`);
 }
 
 // Start the app when DOM is ready

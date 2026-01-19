@@ -11,7 +11,7 @@ dist/
 
 # Scraping / Data (Optional: comment out if you want to keep data in git)
 # times/
-data/
+staticdata/
 md/
 spiders/
 # assets/times/

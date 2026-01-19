@@ -33,60 +33,74 @@
 </head>
 <body>
   
-  <!-- Header -->
+  <!-- Header - Top Bar with Team Filters -->
   <header class="header">
     <div class="container">
       <div class="header-content">
-        <div class="header-top">
-          <h1 class="logo">⚽ Futebol Hoje</h1>
-          
-          <div class="date-selector">
-            <button id="prevDay" aria-label="Dia anterior">◀</button>
-            <span id="currentDate">Hoje, 16 Jan</span>
-            <button id="nextDay" aria-label="Próximo dia">▶</button>
-          </div>
-        </div>
-        
-        <div class="search-bar">
-          <span class="search-icon">🔍</span>
-          <input 
-            type="text" 
-            id="searchInput" 
-            class="search-input" 
-            placeholder="Buscar por time, campeonato ou canal..."
-            aria-label="Buscar jogos"
-          >
+        <h1 class="logo">⚽ Futebol Hoje</h1>
+
+        <!-- Team Quick Access - Above the gold bar -->
+        <div class="quick-access" id="quickAccess">
+          <button class="team-chip" data-team="todos">
+            🏆 Todos os Jogos
+          </button>
+          <button class="team-chip" data-team="flamengo">
+            <img src="assets/times/flamengo.png" alt="Flamengo">
+            Flamengo
+          </button>
+          <button class="team-chip" data-team="palmeiras">
+            <img src="assets/times/palmeiras.png" alt="Palmeiras">
+            Palmeiras
+          </button>
+          <button class="team-chip" data-team="corinthians">
+            <img src="assets/times/corinthians.png" alt="Corinthians">
+            Corinthians
+          </button>
+          <button class="team-chip" data-team="saopaulo">
+            <img src="assets/times/sao-paulo.png" alt="São Paulo">
+            São Paulo
+          </button>
+          <button class="team-chip" data-team="vasco">
+            <img src="assets/times/vasco.png" alt="Vasco">
+            Vasco
+          </button>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Quick Access Chips -->
-  <div class="container">
-    <div class="quick-access" id="quickAccess">
-      <button class="team-chip" data-team="todos">
-        🏆 Todos os Jogos
-      </button>
-      <button class="team-chip" data-team="flamengo">
-        <img src="assets/times/flamengo.png" alt="Flamengo">
-        Flamengo
-      </button>
-      <button class="team-chip" data-team="palmeiras">
-        <img src="assets/times/palmeiras.png" alt="Palmeiras">
-        Palmeiras
-      </button>
-      <button class="team-chip" data-team="corinthians">
-        <img src="assets/times/corinthians.png" alt="Corinthians">
-        Corinthians
-      </button>
-      <button class="team-chip" data-team="sao-paulo">
-        <img src="assets/times/sao-paulo.png" alt="São Paulo">
-        São Paulo
-      </button>
-      <button class="team-chip" data-team="vasco">
-        <img src="assets/times/vasco.png" alt="Vasco">
-        Vasco
-      </button>
+  <!-- Secondary Bar - Tournament, Date and Search -->
+  <div class="secondary-bar">
+    <div class="container">
+      <div class="secondary-bar-content">
+        <!-- Tournament Filter -->
+        <div class="tournament-selector">
+          <select id="tournamentFilter" class="tournament-select">
+            <option value="todos">Todos Campeonatos</option>
+            <option value="paulistao26">Paulistão 2026</option>
+            <option value="carioca26">Carioca 2026</option>
+          </select>
+        </div>
+
+        <!-- Date Selector -->
+        <div class="date-selector">
+          <button id="prevDay" aria-label="Dia anterior">◀</button>
+          <span id="currentDate">Hoje, 16 Jan</span>
+          <button id="nextDay" aria-label="Próximo dia">▶</button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Buscar..."
+            aria-label="Buscar jogos"
+          >
+        </div>
+      </div>
     </div>
   </div>
 
@@ -129,6 +143,7 @@
   </footer>
 
   <!-- JavaScript -->
+  <script src="router.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
