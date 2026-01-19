@@ -141,13 +141,13 @@ a:hover {
 }
 
 .logo-img {
-  height: 48px;
+  height: 40px;
   width: auto;
   object-fit: contain;
 }
 
 .footer-logo {
-  height: 40px;
+  height: 32px;
   width: auto;
   object-fit: contain;
   margin-bottom: var(--space-4);
@@ -579,6 +579,10 @@ a:hover {
   .team-name {
     font-size: var(--text-base);
   }
+  
+  .logo-img {
+    height: 40px; /* Medium size */
+  }
 }
 
 @media (min-width: 768px) {
@@ -588,6 +592,10 @@ a:hover {
     gap: var(--space-6);
   }
   
+  .logo-img {
+    height: 48px; /* Standard desktop size */
+  }
+  
   h1 { font-size: var(--text-4xl); }
   h2 { font-size: var(--text-3xl); }
 }
@@ -595,6 +603,10 @@ a:hover {
 @media (min-width: 1024px) {
   .logo {
     font-size: var(--text-3xl);
+  }
+  
+  .logo-img {
+    height: 56px; /* Larger branding for big screens */
   }
 }
 
