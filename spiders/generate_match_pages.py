@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import json
 import os
 from pathlib import Path
@@ -89,6 +91,7 @@ def generate_match_pages():
             page_content = page_content.replace('src="router.js"', 'src="../../../router.js"')
             page_content = page_content.replace('href="index.html"', 'href="../../../index.html"')
             page_content = page_content.replace('href="campeonatos.html"', 'href="../../../campeonatos.html"')
+            page_content = page_content.replace('src="assets/root/logo_8_original_name.png"', 'src="../../../assets/root/logo_8_original_name.png"')
             
             with open(path / 'index.html', 'w', encoding='utf-8') as f:
                 f.write(page_content)
