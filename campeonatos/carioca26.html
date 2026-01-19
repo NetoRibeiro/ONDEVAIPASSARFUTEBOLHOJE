@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campeonato Carioca 2026 - Onde Vai Passar Futebol Hoje</title>
-    <meta name="description" content="Acompanhe todos os jogos do Campeonato Carioca 2026. Veja onde assistir, horários e classificação do Cariocão.">
-    <meta name="keywords" content="carioca 2026, campeonato carioca, onde assistir, jogos de hoje, futebol carioca, flamengo, vasco">
+    <meta name="description"
+        content="Acompanhe todos os jogos do Campeonato Carioca 2026. Veja onde assistir, horários e classificação do Cariocão.">
+    <meta name="keywords"
+        content="carioca 2026, campeonato carioca, onde assistir, jogos de hoje, futebol carioca, flamengo, vasco">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Campeonato Carioca 2026 - Onde Vai Passar">
@@ -15,6 +18,7 @@
     <link rel="stylesheet" href="../styles.css">
     <script src="../router.js" defer></script>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -43,7 +47,7 @@
         <section class="tournament-hero">
             <div class="tournament-hero-content">
                 <div class="tournament-logo">
-                    <img src="../assets/campeonatos/carioca.png" alt="Carioca" onerror="this.style.display='none'">
+                    <img src="../assets/campeonatos/carioca.jpg" alt="Carioca" onerror="this.style.display='none'">
                 </div>
                 <div class="tournament-info">
                     <h1 class="tournament-title" id="tournament-name">Campeonato Carioca 2026</h1>
@@ -81,7 +85,8 @@
                 <span class="accent-bar"></span>
                 📊 Classificação
             </h2>
-            <div class="standings-placeholder" style="text-align: center; padding: 2rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
+            <div class="standings-placeholder"
+                style="text-align: center; padding: 2rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
                 <p style="color: rgba(255, 255, 255, 0.6);">Tabela de classificação será adicionada em breve</p>
             </div>
         </section>
@@ -95,7 +100,8 @@
             <div class="tournament-details-grid">
                 <div class="detail-card">
                     <h3>Formato</h3>
-                    <p id="tournament-format">12 times divididos em 2 grupos de 6. Os quatro melhores avançam para as semifinais.</p>
+                    <p id="tournament-format">12 times divididos em 2 grupos de 6. Os quatro melhores avançam para as
+                        semifinais.</p>
                 </div>
                 <div class="detail-card">
                     <h3>Transmissão</h3>
@@ -270,6 +276,10 @@
         }
 
         function navigateToMatch(match) {
+            if (match.matchURL) {
+                window.location.href = match.matchURL;
+                return;
+            }
             const url = router.buildMatchURL(
                 match.tournament,
                 match.homeTeam,
@@ -385,4 +395,5 @@
         }
     </style>
 </body>
+
 </html>

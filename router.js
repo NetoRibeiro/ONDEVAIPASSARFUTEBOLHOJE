@@ -70,12 +70,13 @@ class Router {
       const year = date.getFullYear();
       dateStr = `${day}-${month}-${year}`;
     } else {
-      // Assume YYYY-MM-DD format
-      const [year, month, day] = date.split('-');
+      // Assume YYYY-MM-DD... format
+      const datePart = date.split('T')[0];
+      const [year, month, day] = datePart.split('-');
       dateStr = `${day}-${month}-${year}`;
     }
 
-    return `/${tournament}/${homeTeam}-vs-${awayTeam}/${dateStr}`;
+    return `/${tournament}/${dateStr}/${homeTeam}-vs-${awayTeam}/`;
   }
 
   // Find match by URL parameters

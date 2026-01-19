@@ -117,49 +117,16 @@
 
             <div class="league-grid">
 
-                <div class="league-card" onclick="filterByLeague('paulistao')">
-                    <img src="assets/campeonatos/paulistao.png"
-                        alt="Paulistão" class="league-logo">
+                <div class="league-card" onclick="filterByLeague('paulistao26')">
+                    <img src="assets/campeonatos/paulistao.png" alt="Paulistão" class="league-logo">
                     <h3 class="league-name">Paulistão</h3>
                     <p class="league-count">2 jogos hoje</p>
                 </div>
 
-                <div class="league-card" onclick="filterByLeague('carioca')">
-                    <img src="assets/campeonatos/carioca.png"
-                        alt="Carioca" class="league-logo">
+                <div class="league-card" onclick="filterByLeague('carioca26')">
+                    <img src="assets/campeonatos/carioca.png" alt="Carioca" class="league-logo">
                     <h3 class="league-name">Campeonato Carioca</h3>
                     <p class="league-count">2 jogos hoje</p>
-                </div>
-
-                <div class="league-card" onclick="filterByLeague('mineiro')">
-                    <img src="assets/campeonatos/mineiro.png"
-                        alt="Mineiro" class="league-logo">
-                    <h3 class="league-name">Campeonato Mineiro</h3>
-                    <p class="league-count">1 jogo hoje</p>
-                </div>
-
-                <div class="league-card" onclick="filterByLeague('brasileirao')">
-                    <div
-                        style="width: 80px; height: 80px; margin: 0 auto 1rem; background: var(--color-accent-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
-                        🏆</div>
-                    <h3 class="league-name">Brasileirão Série A</h3>
-                    <p class="league-count">0 jogos hoje</p>
-                </div>
-
-                <div class="league-card" onclick="filterByLeague('libertadores')">
-                    <div
-                        style="width: 80px; height: 80px; margin: 0 auto 1rem; background: var(--color-accent-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
-                        🌎</div>
-                    <h3 class="league-name">Libertadores</h3>
-                    <p class="league-count">0 jogos hoje</p>
-                </div>
-
-                <div class="league-card" onclick="filterByLeague('copa-brasil')">
-                    <div
-                        style="width: 80px; height: 80px; margin: 0 auto 1rem; background: var(--color-accent-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
-                        🏅</div>
-                    <h3 class="league-name">Copa do Brasil</h3>
-                    <p class="league-count">0 jogos hoje</p>
                 </div>
 
             </div>
@@ -176,8 +143,8 @@
 
     <script>
         function filterByLeague(league) {
-            // Navigate back to home with league filter
-            window.location.href = `index.html#league=${league}`;
+            // Navigate directly to the championship page
+            window.location.href = `campeonatos/${league}.html`;
         }
     </script>
 </body>

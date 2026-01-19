@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campeonato Paulista 2026 - Onde Vai Passar Futebol Hoje</title>
-    <meta name="description" content="Acompanhe todos os jogos do Campeonato Paulista 2026. Veja onde assistir, horários e classificação do Paulistão.">
+    <meta name="description"
+        content="Acompanhe todos os jogos do Campeonato Paulista 2026. Veja onde assistir, horários e classificação do Paulistão.">
     <meta name="keywords" content="paulistão 2026, campeonato paulista, onde assistir, jogos de hoje, futebol paulista">
 
     <!-- Open Graph -->
@@ -15,6 +17,7 @@
     <link rel="stylesheet" href="../styles.css">
     <script src="../router.js" defer></script>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -81,7 +84,8 @@
                 <span class="accent-bar"></span>
                 📊 Classificação
             </h2>
-            <div class="standings-placeholder" style="text-align: center; padding: 2rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
+            <div class="standings-placeholder"
+                style="text-align: center; padding: 2rem; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
                 <p style="color: rgba(255, 255, 255, 0.6);">Tabela de classificação será adicionada em breve</p>
             </div>
         </section>
@@ -95,7 +99,8 @@
             <div class="tournament-details-grid">
                 <div class="detail-card">
                     <h3>Formato</h3>
-                    <p id="tournament-format">Os 16 times são divididos em 4 grupos. Os dois melhores de cada grupo avançam para as quartas de final.</p>
+                    <p id="tournament-format">Os 16 times são divididos em 4 grupos. Os dois melhores de cada grupo
+                        avançam para as quartas de final.</p>
                 </div>
                 <div class="detail-card">
                     <h3>Transmissão</h3>
@@ -270,6 +275,10 @@
         }
 
         function navigateToMatch(match) {
+            if (match.matchURL) {
+                window.location.href = match.matchURL;
+                return;
+            }
             const url = router.buildMatchURL(
                 match.tournament,
                 match.homeTeam,
@@ -385,4 +394,5 @@
         }
     </style>
 </body>
+
 </html>

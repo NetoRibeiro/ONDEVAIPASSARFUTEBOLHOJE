@@ -30,17 +30,17 @@ const elements = {
 function formatDate(date) {
   const options = { weekday: 'long', day: 'numeric', month: 'short' };
   const formatted = date.toLocaleDateString('pt-BR', options);
-  
+
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
-  
+
   if (date.toDateString() === today.toDateString()) {
     return 'Hoje, ' + date.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
   } else if (date.toDateString() === tomorrow.toDateString()) {
     return 'Amanhã, ' + date.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
   }
-  
+
   return formatted.charAt(0).toUpperCase() + formatted.slice(1);
 }
 
@@ -53,8 +53,8 @@ function normalizeString(str) {
 
 function isSameDay(date1, date2) {
   return date1.getFullYear() === date2.getFullYear() &&
-         date1.getMonth() === date2.getMonth() &&
-         date1.getDate() === date2.getDate();
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate();
 }
 
 // === DATA LOADING ===
@@ -160,25 +160,25 @@ function createMatchCard(match) {
 // === RENDER FUNCTIONS ===
 function renderMatches(matches) {
   elements.matchesContainer.innerHTML = '';
-  
+
   if (matches.length === 0) {
     elements.emptyState.classList.remove('hidden');
     elements.matchesContainer.classList.add('hidden');
     return;
   }
-  
+
   elements.emptyState.classList.add('hidden');
   elements.matchesContainer.classList.remove('hidden');
-  
+
   // Sort matches by matchDate
   const sortedMatches = [...matches].sort((a, b) => {
     return new Date(a.matchDate) - new Date(b.matchDate);
   });
-  
+
   sortedMatches.forEach(match => {
     elements.matchesContainer.innerHTML += createMatchCard(match);
   });
-  
+
   // Add click handlers to match cards
   document.querySelectorAll('.match-card').forEach(card => {
     card.addEventListener('click', () => {
@@ -226,9 +226,9 @@ function filterMatches() {
 
       // Match by team ID or slug
       return homeTeamId === activeTeamFilter ||
-             awayTeamId === activeTeamFilter ||
-             homeTeam?.slug === activeTeamFilter ||
-             awayTeam?.slug === activeTeamFilter;
+        awayTeamId === activeTeamFilter ||
+        homeTeam?.slug === activeTeamFilter ||
+        awayTeam?.slug === activeTeamFilter;
     });
   }
 
@@ -246,9 +246,9 @@ function filterMatches() {
       const channelsNorm = match.broadcasting.map(c => normalizeString(c.channel)).join(' ');
 
       return homeTeamNorm.includes(searchNorm) ||
-             awayTeamNorm.includes(searchNorm) ||
-             tournamentNorm.includes(searchNorm) ||
-             channelsNorm.includes(searchNorm);
+        awayTeamNorm.includes(searchNorm) ||
+        tournamentNorm.includes(searchNorm) ||
+        channelsNorm.includes(searchNorm);
     });
   }
 
@@ -270,16 +270,16 @@ function updateDateSelectorState() {
 
 // === NAVIGATION ===
 function navigateToMatchDetail(match) {
-  // Build URL: campeonatos/{tournament}/{home-team}-vs-{away-team}/{dd-mm-yyyy}
-  const matchDate = new Date(match.matchDate);
-  const day = String(matchDate.getDate()).padStart(2, '0');
-  const month = String(matchDate.getMonth() + 1).padStart(2, '0');
-  const year = matchDate.getFullYear();
-  const dateSlug = `${day}-${month}-${year}`;
-
-  const url = `match.html?t=${match.tournament}&m=${match.homeTeam}-vs-${match.awayTeam}&d=${dateSlug}`;
-
-  // Navigate to match detail page
+  if (match.matchURL) {
+    window.location.href = match.matchURL;
+    return;
+  }
+  const url = router.buildMatchURL(
+    match.tournament,
+    match.homeTeam,
+    match.awayTeam,
+    match.matchDate
+  );
   window.location.href = url;
 }
 

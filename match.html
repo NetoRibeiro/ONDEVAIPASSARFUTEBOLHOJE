@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Detalhes do Jogo - Onde Vai Passar Futebol Hoje</title>
-    <meta name="description" id="page-description" content="Veja onde assistir, horário e informações completas do jogo">
+    <meta name="description" id="page-description"
+        content="Veja onde assistir, horário e informações completas do jogo">
     <meta name="keywords" content="onde assistir, futebol, jogo ao vivo, transmissão">
 
     <link rel="stylesheet" href="styles.css">
     <script src="router.js" defer></script>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -45,7 +48,8 @@
             <section class="match-hero">
                 <div class="match-hero-header">
                     <div class="match-tournament-badge">
-                        <img src="" alt="" id="tournament-logo" class="tournament-badge-logo" onerror="this.style.display='none'">
+                        <img src="" alt="" id="tournament-logo" class="tournament-badge-logo"
+                            onerror="this.style.display='none'">
                         <span id="tournament-name">Campeonato</span>
                     </div>
                     <span id="match-round" class="match-round-badge">1ª Rodada</span>
@@ -54,7 +58,8 @@
                 <div class="match-hero-main">
                     <!-- Home Team -->
                     <div class="match-hero-team">
-                        <img src="" alt="" id="home-team-logo" class="hero-team-logo" onerror="this.src='assets/times/default.png'">
+                        <img src="" alt="" id="home-team-logo" class="hero-team-logo"
+                            onerror="this.src='/assets/times/default.png'">
                         <h1 id="home-team-name" class="hero-team-name">Time Casa</h1>
                     </div>
 
@@ -85,7 +90,8 @@
 
                     <!-- Away Team -->
                     <div class="match-hero-team">
-                        <img src="" alt="" id="away-team-logo" class="hero-team-logo" onerror="this.src='assets/times/default.png'">
+                        <img src="" alt="" id="away-team-logo" class="hero-team-logo"
+                            onerror="this.src='/assets/times/default.png'">
                         <h1 id="away-team-name" class="hero-team-name">Time Visitante</h1>
                     </div>
                 </div>
@@ -120,7 +126,8 @@
                     📋 Histórico de Confrontos
                 </h2>
                 <div class="h2h-placeholder">
-                    <p style="color: rgba(255, 255, 255, 0.6); text-align: center;">Histórico será adicionado em breve</p>
+                    <p style="color: rgba(255, 255, 255, 0.6); text-align: center;">Histórico será adicionado em breve
+                    </p>
                 </div>
             </section>
         </div>
@@ -130,7 +137,7 @@
             <div class="empty-state">
                 <h2>⚠️ Jogo não encontrado</h2>
                 <p>Desculpe, não encontramos informações sobre este jogo.</p>
-                <a href="index.html" class="btn-primary">Voltar para Home</a>
+                <a href="/index.html" class="btn-primary">Voltar para Home</a>
             </div>
         </div>
     </main>
@@ -154,7 +161,23 @@
 
         async function loadMatchDetails() {
             try {
-                // Load router data
+                // If we have static data, use it immediately
+                if (window.STATIC_MATCH_DATA) {
+                    matchData = window.STATIC_MATCH_DATA;
+                    router.teamsData = window.STATIC_TEAMS_DATA;
+                    router.tournamentsData = window.STATIC_TOURNAMENTS_DATA;
+
+                    homeTeamData = router.getTeamBySlug(matchData.homeTeam);
+                    awayTeamData = router.getTeamBySlug(matchData.awayTeam);
+                    tournamentData = router.getTournamentBySlug(matchData.tournament);
+
+                    renderMatchDetails();
+                    document.getElementById('loading-state').style.display = 'none';
+                    document.getElementById('match-content').style.display = 'block';
+                    return;
+                }
+
+                // Fallback to dynamic loading
                 await router.loadData();
 
                 // Parse URL query parameters: ?t=tournament&m=home-vs-away&d=dd-mm-yyyy
@@ -181,9 +204,9 @@
                     const mDateStr = `${mDate.getFullYear()}-${String(mDate.getMonth() + 1).padStart(2, '0')}-${String(mDate.getDate()).padStart(2, '0')}`;
 
                     return m.tournament === tournamentSlug &&
-                           m.homeTeam === homeTeamSlug &&
-                           m.awayTeam === awayTeamSlug &&
-                           mDateStr === matchDateISO;
+                        m.homeTeam === homeTeamSlug &&
+                        m.awayTeam === awayTeamSlug &&
+                        mDateStr === matchDateISO;
                 });
 
                 if (!matchData) {
@@ -221,7 +244,7 @@
             if (tournamentData) {
                 const tournamentLink = document.getElementById('tournament-link');
                 tournamentLink.textContent = tournamentData.shortName || tournamentData.name;
-                tournamentLink.href = `campeonatos/${tournamentData.slug}.html`;
+                tournamentLink.href = `/campeonatos/${tournamentData.slug}.html`;
             }
 
             // Update tournament badge
@@ -532,4 +555,5 @@
         }
     </style>
 </body>
+
 </html>

@@ -31,13 +31,41 @@
         "pontepreta"
       ],
       "groups": {
-        "A": ["corinthians", "palmeiras", "saopaulo", "santos", "interdelimeira"],
-        "B": ["saobernardo", "novorizontino", "bragantino", "mirassol", "guarani"],
-        "C": ["pontepreta", "guarani", "associacaoesportivaveloclubereioclarense", "portuguesa"],
-        "D": ["botafogorp", "esporteclubenoroeste", "capivariano", "esporteclubeprimavera"]
+        "A": [
+          "corinthians",
+          "palmeiras",
+          "saopaulo",
+          "santos",
+          "interdelimeira"
+        ],
+        "B": [
+          "saobernardo",
+          "novorizontino",
+          "bragantino",
+          "mirassol",
+          "guarani"
+        ],
+        "C": [
+          "pontepreta",
+          "guarani",
+          "associacaoesportivaveloclubereioclarense",
+          "portuguesa"
+        ],
+        "D": [
+          "botafogorp",
+          "esporteclubenoroeste",
+          "capivariano",
+          "esporteclubeprimavera"
+        ]
       },
       "format": "Os 16 times são divididos em 4 grupos. Os dois melhores de cada grupo avançam para as quartas de final.",
-      "broadcasting": ["Premiere", "HBO Max", "Nosso Futebol", "Record", "YouTube"]
+      "broadcasting": [
+        "Premiere",
+        "HBO Max",
+        "Nosso Futebol",
+        "Record",
+        "YouTube"
+      ]
     },
     {
       "id": "carioca26",
@@ -46,7 +74,7 @@
       "slug": "carioca26",
       "year": 2026,
       "status": "active",
-      "logo": "/assets/campeonatos/carioca.png",
+      "logo": "/assets/campeonatos/carioca.jpg",
       "startDate": "2026-01-12",
       "endDate": "2026-04-15",
       "phase": "Fase de Grupos",
@@ -66,11 +94,31 @@
         "marica"
       ],
       "groups": {
-        "A": ["voltaredonda", "vasco", "fluminense", "bangu", "sampiocorrea", "portuguesa-rj"],
-        "B": ["novaiguacu", "botafogo", "madureira", "boavista", "marica", "flamengo"]
+        "A": [
+          "voltaredonda",
+          "vasco",
+          "fluminense",
+          "bangu",
+          "sampiocorrea",
+          "portuguesa-rj"
+        ],
+        "B": [
+          "novaiguacu",
+          "botafogo",
+          "madureira",
+          "boavista",
+          "marica",
+          "flamengo"
+        ]
       },
       "format": "12 times divididos em 2 grupos de 6. Os quatro melhores avançam para as semifinais.",
-      "broadcasting": ["SporTV", "Premiere", "Band", "RecordTV", "Globo"]
+      "broadcasting": [
+        "SporTV",
+        "Premiere",
+        "Band",
+        "RecordTV",
+        "Globo"
+      ]
     }
   ]
 }
