@@ -2,6 +2,60 @@
 // ONDE VAI PASSAR FUTEBOL HOJE - App Logic
 // ============================================
 
+// === CHANNEL DATA ===
+let canaisData = [];
+
+// Channel name aliases mapping to canonical IDs
+const channelAliases = {
+  'record': 'record',
+  'tv globo': 'globo',
+  'globo': 'globo',
+  'band': 'band',
+  'sbt': 'sbt',
+  'rede-tv': 'redetv',
+  'redetv': 'redetv',
+  'redetv!': 'redetv',
+  'tv-cultura': 'tvcultura',
+  'tv cultura': 'tvcultura',
+  'cultura': 'tvcultura',
+  'sportv': 'sportv',
+  'premiere': 'premiere',
+  'cazetv': 'cazetv',
+  'cazétv': 'cazetv',
+  'caze tv': 'cazetv',
+  'youtube': 'youtube',
+  'hbo-max': 'max',
+  'hbo max': 'max',
+  'max': 'max',
+  'disneyplus': 'disneyplus',
+  'disney+': 'disneyplus',
+  'disney plus': 'disneyplus',
+  'goat-tv': 'goattv',
+  'goat tv': 'goattv',
+  'goattv': 'goattv',
+  'tnt': 'tnt',
+  'tnt sports': 'tnt'
+};
+
+function getChannelData(channelName) {
+  const normalizedName = channelName.toLowerCase().trim();
+  const canonicalId = channelAliases[normalizedName];
+  if (canonicalId && canaisData.length > 0) {
+    return canaisData.find(c => c.id === canonicalId || c.slug === canonicalId);
+  }
+  return null;
+}
+
+function getChannelLogo(channelName) {
+  const channelData = getChannelData(channelName);
+  return channelData?.logo || null;
+}
+
+function getChannelUrl(channelName) {
+  const channelData = getChannelData(channelName);
+  return channelData?.thirdpartyurl || null;
+}
+
 // === STATE MANAGEMENT ===
 let currentDate = new Date();
 let allMatches = [];
@@ -60,19 +114,22 @@ function isSameDay(date1, date2) {
 // === DATA LOADING ===
 async function loadData() {
   try {
-    const [matchesRes, teamsRes, tournamentsRes] = await Promise.all([
+    const [matchesRes, teamsRes, tournamentsRes, canaisRes] = await Promise.all([
       fetch('data/matches.json'),
       fetch('data/teams.json'),
-      fetch('data/tournaments.json')
+      fetch('data/tournaments.json'),
+      fetch('data/canais.json')
     ]);
 
     const matchesData = await matchesRes.json();
     const teamsDataRes = await teamsRes.json();
     const tournamentsDataRes = await tournamentsRes.json();
+    const canaisDataRes = await canaisRes.json();
 
     allMatches = matchesData.matches;
     teamsData = teamsDataRes.teams;
     tournamentsData = tournamentsDataRes.tournaments;
+    canaisData = canaisDataRes.canais;
 
     return true;
   } catch (error) {
@@ -101,8 +158,12 @@ function createMatchCard(match) {
     : '';
 
   const channelBadges = match.broadcasting.map(channel => {
-    const logoHtml = channel.logo
-      ? `<img src="${channel.logo}" alt="${channel.channel}" class="channel-logo">`
+    const logoPath = channel.logo || getChannelLogo(channel.channel);
+    const channelUrl = getChannelUrl(channel.channel);
+    const logoHtml = logoPath
+      ? (channelUrl
+        ? `<a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="channel-logo-link" onclick="event.stopPropagation()"><img src="${logoPath}" alt="${channel.channel}" class="channel-logo"></a>`
+        : `<img src="${logoPath}" alt="${channel.channel}" class="channel-logo">`)
       : '';
     return `
       <span class="channel-badge">

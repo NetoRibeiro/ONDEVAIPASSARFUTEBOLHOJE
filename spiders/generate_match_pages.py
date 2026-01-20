@@ -30,10 +30,12 @@ def load_data():
         teams = {t['id']: t for t in json.load(f)['teams']}
     with open(DATA_DIR / 'tournaments.json', 'r', encoding='utf-8') as f:
         tournaments = {t['id']: t for t in json.load(f)['tournaments']}
-    return matches, teams, tournaments
+    with open(DATA_DIR / 'canais.json', 'r', encoding='utf-8') as f:
+        canais = json.load(f)['canais']
+    return matches, teams, tournaments, canais
 
 def generate_match_pages():
-    matches, teams, tournaments = load_data()
+    matches, teams, tournaments, canais = load_data()
     
     # Load template
     with open(BASE_DIR / 'match.html', 'r', encoding='utf-8') as f:
@@ -65,6 +67,7 @@ def generate_match_pages():
             static_data_js += "  window.STATIC_MATCH_DATA = " + json.dumps(match, ensure_ascii=False) + ";\n"
             static_data_js += "  window.STATIC_TEAMS_DATA = " + json.dumps(list(teams.values()), ensure_ascii=False) + ";\n"
             static_data_js += "  window.STATIC_TOURNAMENTS_DATA = " + json.dumps(list(tournaments.values()), ensure_ascii=False) + ";\n"
+            static_data_js += "  window.STATIC_CANAIS_DATA = " + json.dumps(canais, ensure_ascii=False) + ";\n"
             static_data_js += "</script>\n"
             
             # Inject data and SEO tags
@@ -91,7 +94,12 @@ def generate_match_pages():
             page_content = page_content.replace('src="router.js"', 'src="../../../router.js"')
             page_content = page_content.replace('href="index.html"', 'href="../../../index.html"')
             page_content = page_content.replace('href="campeonatos.html"', 'href="../../../campeonatos.html"')
+            page_content = page_content.replace('href="sobre.html"', 'href="../../../sobre.html"')
+            page_content = page_content.replace('href="contato.html"', 'href="../../../contato.html"')
+            page_content = page_content.replace('href="privacidade.html"', 'href="../../../privacidade.html"')
             page_content = page_content.replace('src="assets/root/logo_8_original_name.png"', 'src="../../../assets/root/logo_8_original_name.png"')
+            # Fix canais.json fetch path
+            page_content = page_content.replace("fetch('/data/canais.json')", "fetch('../../../data/canais.json')")
             
             with open(path / 'index.html', 'w', encoding='utf-8') as f:
                 f.write(page_content)

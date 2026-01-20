@@ -655,3 +655,162 @@ a:hover {
   font-size: var(--text-4xl);
   margin-bottom: var(--space-4);
 }
+
+/* === CONTENT PAGES (Sobre, Contato, Privacidade) === */
+.page-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.page-nav a {
+  color: var(--color-black);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.page-nav a:hover {
+  opacity: 0.7;
+}
+
+.nav-separator {
+  color: var(--color-black);
+  opacity: 0.5;
+}
+
+.nav-current {
+  color: var(--color-black);
+  font-weight: 700;
+}
+
+.content-section {
+  padding: var(--space-8) 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: var(--text-3xl);
+  font-weight: 900;
+  color: var(--color-accent-neon);
+  margin-bottom: var(--space-8);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.page-title::before {
+  content: '';
+  width: 4px;
+  height: 40px;
+  background: var(--color-accent-gold);
+  border-radius: var(--radius-sm);
+}
+
+.content-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-gray-700);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.content-card h2 {
+  font-size: var(--text-xl);
+  color: var(--color-accent-gold);
+  margin-bottom: var(--space-4);
+}
+
+.content-card p {
+  color: var(--color-gray-100);
+  line-height: 1.8;
+}
+
+.content-card strong {
+  color: var(--color-white);
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-4) 0 0 0;
+}
+
+.feature-list li {
+  position: relative;
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-3);
+  color: var(--color-gray-100);
+  line-height: 1.6;
+}
+
+.feature-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  background: var(--color-accent-gold);
+  border-radius: 50%;
+}
+
+.contact-email {
+  margin-top: var(--space-4);
+}
+
+.contact-email a {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-accent-gold);
+}
+
+.contact-email a:hover {
+  color: var(--color-accent-neon);
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-accent-gold);
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.social-link:hover {
+  color: var(--color-accent-neon);
+}
+
+.update-date {
+  font-size: var(--text-sm);
+  color: var(--color-gray-300);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .page-title {
+    font-size: var(--text-4xl);
+  }
+
+  .content-card {
+    padding: var(--space-8);
+  }
+}
+
+/* === CLICKABLE CHANNEL LOGOS === */
+.channel-logo-link {
+  display: inline-flex;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.channel-logo-link:hover {
+  transform: scale(1.15);
+  opacity: 0.9;
+}
+
+.channel-logo-link .channel-logo {
+  cursor: pointer;
+}

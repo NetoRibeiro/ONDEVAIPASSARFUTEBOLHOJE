@@ -150,10 +150,69 @@
                 <a href="index.html">Home</a>
                 <a href="campeonatos.html">Campeonatos</a>
             </div>
+            <div class="footer-links" style="margin-top: 0.5rem;">
+                <a href="sobre.html">Sobre</a> •
+                <a href="contato.html">Contato</a> •
+                <a href="privacidade.html">Privacidade</a>
+            </div>
         </div>
     </footer>
 
     <script>
+        // === CHANNEL DATA ===
+        let canaisData = [];
+
+        // Channel name aliases mapping to canonical IDs
+        const channelAliases = {
+            'record': 'record',
+            'tv globo': 'globo',
+            'globo': 'globo',
+            'band': 'band',
+            'sbt': 'sbt',
+            'rede-tv': 'redetv',
+            'redetv': 'redetv',
+            'redetv!': 'redetv',
+            'tv-cultura': 'tvcultura',
+            'tv cultura': 'tvcultura',
+            'cultura': 'tvcultura',
+            'sportv': 'sportv',
+            'premiere': 'premiere',
+            'cazetv': 'cazetv',
+            'cazétv': 'cazetv',
+            'caze tv': 'cazetv',
+            'youtube': 'youtube',
+            'hbo-max': 'max',
+            'hbo max': 'max',
+            'max': 'max',
+            'disneyplus': 'disneyplus',
+            'disney+': 'disneyplus',
+            'disney plus': 'disneyplus',
+            'goat-tv': 'goattv',
+            'goat tv': 'goattv',
+            'goattv': 'goattv',
+            'tnt': 'tnt',
+            'tnt sports': 'tnt'
+        };
+
+        function getChannelData(channelName) {
+            const normalizedName = channelName.toLowerCase().trim();
+            const canonicalId = channelAliases[normalizedName];
+            if (canonicalId && canaisData.length > 0) {
+                return canaisData.find(c => c.id === canonicalId || c.slug === canonicalId);
+            }
+            return null;
+        }
+
+        function getChannelLogo(channelName) {
+            const channelData = getChannelData(channelName);
+            return channelData?.logo || null;
+        }
+
+        function getChannelUrl(channelName) {
+            const channelData = getChannelData(channelName);
+            return channelData?.thirdpartyurl || null;
+        }
+
         let matchData = null;
         let homeTeamData = null;
         let awayTeamData = null;
@@ -161,6 +220,19 @@
 
         async function loadMatchDetails() {
             try {
+                // Load canais data - check for static data first, then fetch
+                if (window.STATIC_CANAIS_DATA) {
+                    canaisData = window.STATIC_CANAIS_DATA;
+                } else {
+                    try {
+                        const canaisRes = await fetch('/data/canais.json');
+                        const canaisDataRes = await canaisRes.json();
+                        canaisData = canaisDataRes.canais;
+                    } catch (e) {
+                        console.warn('Could not load canais.json:', e);
+                    }
+                }
+
                 // If we have static data, use it immediately
                 if (window.STATIC_MATCH_DATA) {
                     matchData = window.STATIC_MATCH_DATA;
@@ -300,15 +372,23 @@
                 return;
             }
 
-            container.innerHTML = matchData.broadcasting.map(channel => `
+            container.innerHTML = matchData.broadcasting.map(channel => {
+                const logoPath = channel.logo || getChannelLogo(channel.channel);
+                const channelUrl = getChannelUrl(channel.channel);
+                const logoHtml = logoPath
+                    ? (channelUrl
+                        ? `<a href="${channelUrl}" target="_blank" rel="noopener noreferrer" class="broadcast-logo-link"><img src="${logoPath}" alt="${channel.channel}" class="broadcast-logo" onerror="this.style.display='none'"></a>`
+                        : `<img src="${logoPath}" alt="${channel.channel}" class="broadcast-logo" onerror="this.style.display='none'">`)
+                    : '';
+                return `
                 <div class="broadcast-card">
-                    ${channel.logo ? `<img src="${channel.logo}" alt="${channel.channel}" class="broadcast-logo" onerror="this.style.display='none'">` : ''}
+                    ${logoHtml}
                     <div class="broadcast-info">
                         <h3 class="broadcast-name">${channel.channel}</h3>
                         <span class="broadcast-type">${formatChannelType(channel.type)}</span>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function formatChannelType(type) {
@@ -489,6 +569,20 @@
             width: 60px;
             height: 60px;
             object-fit: contain;
+        }
+
+        .broadcast-logo-link {
+            display: inline-flex;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .broadcast-logo-link:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+
+        .broadcast-logo-link .broadcast-logo {
+            cursor: pointer;
         }
 
         .broadcast-info {
