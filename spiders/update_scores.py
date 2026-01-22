@@ -20,6 +20,7 @@ RESULTADOS_DIR = BASE_DIR / "resultados"
 # Team name normalization mapping
 # Maps resultados team names to matches.json team names
 TEAM_NAME_MAP = {
+    # Paulistão teams
     "botafogo-sp": "botafogorp",
     "primavera-sp": "esporteclubeprimavera",
     "noroeste": "esporteclubenoroeste",
@@ -36,6 +37,17 @@ TEAM_NAME_MAP = {
     "novorizontino": "novorizontino",
     "palmeiras": "palmeiras",
     "capivariano": "capivariano",
+    # Carioca teams
+    "flamengo-rio-janeiro": "flamengo",
+    "fluminense-rio-janeiro": "fluminense",
+    "botafogo-rio-janeiro": "botafogo",
+    "vasco-da-gama": "vasco",
+    "cfrj-marica": "marica",
+    "volta-redonda": "voltaredonda",
+    "madureira-rj": "madureira",
+    "sampaio-correa-rj": "sampaiocorrea",
+    "boavista-br": "boavista",
+    "nova-iguacu": "novaiguacu",
 }
 
 
