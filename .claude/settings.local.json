@@ -3,7 +3,10 @@
     "allow": [
       "Bash(python:*)",
       "Bash(.venvScriptsactivate)",
-      "Bash(.venv/Scripts/python.exe:*)"
+      "Bash(.venv/Scripts/python.exe:*)",
+      "Bash(.venvScriptspython.exe spidersupdate_scores.py)",
+      "Bash(.venv/Scripts/activate)",
+      "Bash(\"c:\\\\Antigravity\\\\ONDEVAIPASSARFUTEBOLHOJE\\\\.venv\\\\Scripts\\\\python.exe\":*)"
     ]
   }
 }

@@ -24,8 +24,15 @@ dist/
 *.swp
 *.swo
 .DS_Store
-.claude/
-
+/.claude/settings.local.json
 # Misc
 .env
 *.log
+
+# Temp files
+tmp/
+*.tmp
+*.bak
+*.old
+/resultados/
+*.bat

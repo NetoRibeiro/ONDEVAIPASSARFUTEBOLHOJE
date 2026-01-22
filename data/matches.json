@@ -673,7 +673,7 @@
       "awayTeam": "palmeiras",
       "matchDate": "2026-01-21T19:30:00-03:00",
       "round": "4ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
         "home": 4,
         "away": 0
@@ -2026,8 +2026,8 @@
       "round": "3ª Rodada",
       "status": "scheduled",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 0
       },
       "venue": {
         "name": "Maracanã",
@@ -2063,8 +2063,8 @@
       "round": "3ª Rodada",
       "status": "scheduled",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 0
       },
       "venue": {
         "name": "Nilton Santos",
@@ -2088,8 +2088,8 @@
       "round": "3ª Rodada",
       "status": "scheduled",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 2
       },
       "venue": {
         "name": "João Saldanha",
