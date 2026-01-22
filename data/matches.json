@@ -650,8 +650,8 @@
       "round": "4ª Rodada",
       "status": "scheduled",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 1
       },
       "venue": {
         "name": "Alfredo Castilho",
@@ -675,8 +675,8 @@
       "round": "4ª Rodada",
       "status": "scheduled",
       "score": {
-        "home": null,
-        "away": null
+        "home": 4,
+        "away": 0
       },
       "venue": {
         "name": "Jorge Ismael",
@@ -704,8 +704,8 @@
       "round": "4ª Rodada",
       "status": "scheduled",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
       "venue": {
         "name": "Moisés Lucarelli",
@@ -783,8 +783,8 @@
       "round": "4ª Rodada",
       "status": "scheduled",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 3
       },
       "venue": {
         "name": "MorumBIS",
