@@ -750,16 +750,16 @@
       "matchURL": "/paulistao26/21-01-2026/santos-vs-corinthians/"
     },
     {
-      "id": "paulistao26-bragantino-vs-botafogorp-21-01-2026",
+      "id": "paulistao26-bragantino-vs-mirassol-21-01-2026",
       "tournament": "paulistao26",
       "homeTeam": "bragantino",
-      "awayTeam": "botafogorp",
+      "awayTeam": "mirassol",
       "matchDate": "2026-01-21T18:15:00-03:00",
       "round": "4ª Rodada",
       "status": "scheduled",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
       "venue": {
         "name": "Cícero Marques",
@@ -772,7 +772,7 @@
           "type": "streaming"
         }
       ],
-      "matchURL": "/paulistao26/21-01-2026/red-bull-bragantino-vs-botafogo-rp/"
+      "matchURL": "/paulistao26/21-01-2026/red-bull-bragantino-vs-mirassol/"
     },
     {
       "id": "paulistao26-saopaulo-vs-portuguesa-21-01-2026",
