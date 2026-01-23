@@ -25,6 +25,8 @@ dist/
 *.swo
 .DS_Store
 /.claude/settings.local.json
+/.claude/
+.claude
 # Misc
 .env
 *.log
