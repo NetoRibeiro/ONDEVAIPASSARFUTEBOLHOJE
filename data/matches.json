@@ -875,19 +875,19 @@
       "matchURL": "/paulistao26/25-01-2026/novorizontino-vs-botafogo-rp/"
     },
     {
-      "id": "paulistao26-palmeiras-vs-saopaulo-25-01-2026",
+      "id": "paulistao26-palmeiras-vs-saopaulo-24-01-2026",
       "tournament": "paulistao26",
       "homeTeam": "palmeiras",
       "awayTeam": "saopaulo",
-      "matchDate": "2026-01-25T16:00:00-03:00",
+      "matchDate": "2026-01-24T16:00:00-03:00",
       "round": "5ª Rodada",
       "status": "scheduled",
       "score": {
-        "home": null,
-        "away": null
+        "home": 3,
+        "away": 1
       },
       "venue": {
-        "name": "Allianz Parque",
+        "name": "Arena Barueri",
         "city": "São Paulo",
         "state": "SP"
       },
@@ -901,7 +901,7 @@
           "type": "streaming"
         }
       ],
-      "matchURL": "/paulistao26/25-01-2026/palmeiras-vs-sao-paulo/"
+      "matchURL": "/paulistao26/24-01-2026/palmeiras-vs-sao-paulo/"
     },
     {
       "id": "paulistao26-pontepreta-vs-esporteclubenoroeste-25-01-2026",
