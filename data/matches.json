@@ -831,10 +831,10 @@
       "awayTeam": "esporteclubeprimavera",
       "matchDate": "2026-01-25T16:00:00-03:00",
       "round": "5ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 1,
+        "away": 2
       },
       "venue": {
         "name": "Arena Capivari",
@@ -856,10 +856,10 @@
       "awayTeam": "botafogorp",
       "matchDate": "2026-01-25T18:00:00-03:00",
       "round": "5ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 0
       },
       "venue": {
         "name": "Jorge Ismael",
@@ -910,10 +910,10 @@
       "awayTeam": "esporteclubenoroeste",
       "matchDate": "2026-01-25T16:00:00-03:00",
       "round": "5ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
       "venue": {
         "name": "Moisés Lucarelli",
@@ -964,10 +964,10 @@
       "awayTeam": "bragantino",
       "matchDate": "2026-01-25T18:30:00-03:00",
       "round": "5ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 0
       },
       "venue": {
         "name": "Vila Belmiro",
@@ -989,10 +989,10 @@
       "awayTeam": "mirassol",
       "matchDate": "2026-01-25T15:00:00-03:00",
       "round": "5ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 4
       },
       "venue": {
         "name": "1º de Maio",
@@ -1014,10 +1014,10 @@
       "awayTeam": "corinthians",
       "matchDate": "2026-01-25T20:30:00-03:00",
       "round": "5ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
       "venue": {
         "name": "Benitão",
@@ -2190,10 +2190,10 @@
       "awayTeam": "bangu",
       "matchDate": "2026-01-24T21:00:00-03:00",
       "round": "4ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 0
       },
       "venue": {
         "name": "Nilton Santos",
@@ -2219,10 +2219,10 @@
       "awayTeam": "vasco",
       "matchDate": "2026-01-25T20:30:00-03:00",
       "round": "4ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 3
       },
       "venue": {
         "name": "Elcyr Resende",
@@ -2248,10 +2248,10 @@
       "awayTeam": "flamengo",
       "matchDate": "2026-01-25T18:00:00-03:00",
       "round": "4ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 1
       },
       "venue": {
         "name": "Maracanã",
