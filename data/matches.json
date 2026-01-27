@@ -935,10 +935,10 @@
       "awayTeam": "guarani",
       "matchDate": "2026-01-25T18:30:00-03:00",
       "round": "5ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
       "venue": {
         "name": "Canindé",
@@ -2281,10 +2281,10 @@
       "awayTeam": "voltaredonda",
       "matchDate": "2026-01-26T21:30:00-03:00",
       "round": "4ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 2,
+        "away": 2
       },
       "venue": {
         "name": "Jânio Moraes",
@@ -2306,10 +2306,10 @@
       "awayTeam": "portuguesa-rj",
       "matchDate": "2026-01-26T17:00:00-03:00",
       "round": "4ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 2
       },
       "venue": {
         "name": "Conselheiro Galvão",
