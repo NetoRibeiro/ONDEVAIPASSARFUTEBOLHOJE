@@ -2331,10 +2331,10 @@
       "awayTeam": "sampaiocorrea",
       "matchDate": "2026-01-27T17:00:00-03:00",
       "round": "4ª Rodada",
-      "status": "scheduled",
+      "status": "finished",
       "score": {
-        "home": null,
-        "away": null
+        "home": 0,
+        "away": 1
       },
       "venue": {
         "name": "João Saldanha",
