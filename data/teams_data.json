@@ -1,0 +1,122 @@
+{
+  "Athletico Paranaense": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Club_Athletico_Paranaense"
+  },
+  "Atlético Mineiro": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Clube_Atlético_Mineiro"
+  },
+  "Bahia": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Esporte_Clube_Bahia"
+  },
+  "Botafogo": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas"
+  },
+  "Chapecoense": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Associação_Chapecoense_de_Futebol"
+  },
+  "Corinthians": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Sport_Club_Corinthians_Paulista"
+  },
+  "Coritiba": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Coritiba_Foot_Ball_Club"
+  },
+  "Cruzeiro": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Cruzeiro_Esporte_Clube"
+  },
+  "Flamengo": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Clube_de_Regatas_do_Flamengo"
+  },
+  "Fluminense": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Fluminense_Football_Club"
+  },
+  "Grêmio": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Grêmio_Foot-Ball_Porto_Alegrense"
+  },
+  "Internacional": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Sport_Club_Internacional"
+  },
+  "Mirassol": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Mirassol_Futebol_Clube"
+  },
+  "Palmeiras": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Sociedade_Esportiva_Palmeiras"
+  },
+  "Red Bull Bragantino": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Red_Bull_Bragantino"
+  },
+  "Remo": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Clube_do_Remo"
+  },
+  "Santos": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Santos_Futebol_Clube"
+  },
+  "São Paulo": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/São_Paulo_Futebol_Clube"
+  },
+  "Vasco da Gama": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Club_de_Regatas_Vasco_da_Gama"
+  },
+  "Vitória": {
+    "leagues": [
+      "brasileiro"
+    ],
+    "wiki_url": "https://pt.wikipedia.org/wiki/Esporte_Clube_Vitória"
+  }
+}

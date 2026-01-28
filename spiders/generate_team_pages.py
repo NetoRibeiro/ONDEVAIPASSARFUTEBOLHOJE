@@ -9,66 +9,40 @@ from bs4 import BeautifulSoup
 from pathlib import Path
 import time
 import re
+import json
 
 # Base directories
 BASE_DIR = Path(__file__).parent.parent
 TEAMS_DIR = BASE_DIR / 'times'
+DATA_DIR = BASE_DIR / 'data'
 TEAMS_DIR.mkdir(parents=True, exist_ok=True)
+DATA_DIR.mkdir(parents=True, exist_ok=True)
 # UF: Apelido do Campeonato, Nome do Campeonato, Nome real do Campeonato, Link da Federação, Link do Campeonato na Federação, Pagina do Campeonato na WikiPedia
-ESTADOS = {
-    'SP': {'Paulistão', 'Campeonato Paulista de Futebol', 'Campeonato Paulista de Futebol - Serie A1', 'https://www.futebolpaulista.com.br/Home/', 'https://www.futebolpaulista.com.br/Competicoes/Tabela.aspx?idCampeonato=73&ano=2026&idCategoria=39&nav=1', 'https://pt.wikipedia.org/wiki/Campeonato_Paulista_de_Futebol_de_2026'},
-    'RJ': {'Carioca', 'Campeonato Carioca de Futebol', 'Campeonato Carioca de Futebol', 'https://www.fferj.com.br/', 'https://www.fferj.com.br/campeonatos/estadual/profissional/serie-a?temporada=18', 'https://pt.wikipedia.org/wiki/Campeonato_Carioca_de_Futebol_de_2026'},
-    'MG': {'Mineiro', 'Campeonato Mineiro de Futebol', 'Campeonato Mineiro de Futebol - Módulo I','https://www.fmf.com.br/', 'https://www.fmf.com.br/Competicoes/ProxJogos.aspx?d=1', 'https://pt.wikipedia.org/wiki/Campeonato_Mineiro_de_Futebol_de_2026_-_M%C3%B3dulo_I'},
-    'BA': {'Baianão', 'Campeonato Baiano de Futebol', 'Campeonato Baiano de Futebol - Serie A1', 'https://www.fbf.org.br/', 'https://www.fbf.org.br/competicoes/1/2026', 'https://www.fbf.org.br/competicoes/1', 'https://pt.wikipedia.org/wiki/Campeonato_Baiano_de_Futebol_de_2026'},
-    'PE': {'Pernambucano', 'Campeonato Pernambucano de Futebol', 'Campeonato Pernambucano da Serie A1', 'https://www.fpf-pe.com.br/pt/home/', 'https://www.fpf-pe.com.br/pt/competicoes/jogos.php?q=1651', 'https://pt.wikipedia.org/wiki/Campeonato_Pernambucano_de_Futebol_de_2026'},
-    'CE': {'Cearense', 'Campeonato Cearense de Futebol', 'Campeonato Cearense de Futebol', 'https://www.futebolcearense.com.br/', 'https://www.futebolcearense.com.br/2023/clubes.asp?q=serie-a', 'https://pt.wikipedia.org/wiki/Campeonato_Cearense_de_Futebol_de_2026'},
-    'RS': {'Gauchão', 'Campeonato Gaúcho de Futebol', 'Campeonato Gaúcho de Futebol - Serie A', 'https://www.fgf.com.br/', 'https://fgf.com.br/competicoes/profissional', 'https://pt.wikipedia.org/wiki/Campeonato_Ga%C3%BAcho_de_Futebol_de_2026_-_S%C3%A9rie_A'},
-    'PR': {'Paranaense', 'Campeonato Paranaense de Futebol', 'Campeonato Paranaense de Futebol', 'https://federacaopr.com.br/', 'https://federacaopr.com.br/competicoes/Profissional/2026/33', 'https://pt.wikipedia.org/wiki/Campeonato_Paranaense_de_Futebol_de_2026'},
-    'SC': {'Catarinense', 'Campeonato Catarinense de Futebol', 'Campeonato Catarinense de Futebol', 'https://fcf.com.br/', 'https://fcf.com.br/ligas/', 'https://pt.wikipedia.org/wiki/Campeonato_Catarinense_de_Futebol_de_2025_-_S%C3%A9rie_A'},
-    'GO': {'Goiano', 'Campeonato Goiano de Futebol', 'Campeonato Goiano de Futebol', 'http://www.fgf.esp.br/pt/home/', 'http://www.fgf.esp.br/pt/competicoes/jogos.php?q=1643', 'https://pt.wikipedia.org/wiki/Campeonato_Goiano_de_Futebol_de_2026'},
-    'DF': {'Candangão', 'Campeonato Brasiliense de Futebol', 'Campeonato Brasiliense de Futebol', 'https://www.ffdf.com.br/pt/home/', 'https://www.ffdf.com.br/pt/competicoes/jogos.php?q=1626', 'https://pt.wikipedia.org/wiki/Campeonato_Brasiliense_de_Futebol_de_2025'},
-    'MT': {'Mato-Grossense', 'Campeonato Mato Grossoense de Futebol', 'Campeonato Mato Grossoense de Futebol', 'https://fmfmt.com.br/pt/home/', 'https://fmfmt.com.br/pt/competicoes/tabela.php?ID=1659', 'https://pt.wikipedia.org/wiki/Campeonato_Mato-Grossense_de_Futebol_de_2025'},
-    'MS': {'Sul-Mato-Grossense', 'Campeonato Mato Grossoense de Futebol', 'Campeonato Mato Grossoense de Futebol', 'http://www.futebolms.com.br/', 'http://www.futebolms.com.br/', 'https://pt.wikipedia.org/wiki/Campeonato_Sul-Mato-Grossense_de_Futebol_de_2025'},
-    'RO': {'Rondôniaense', 'Campeonato Rondôniaense de Futebol', 'Campeonato Rondôniaense de Futebol', 'https://www.ffer.com.br/', 'https://www.ffer.com.br/Publicacao.aspx?id=393357', 'https://pt.wikipedia.org/wiki/Campeonato_Rondoniense_de_Futebol_de_2025'},
-    'AC': {'Acreano', 'Campeonato Acreano de Futebol', 'Campeonato Acreano de Futebol - Serie A', 'https://www.ffac.com.br/', 'https://ffac.com.br/competicao/2026/acreanao-sicredi-2026', 'https://pt.wikipedia.org/wiki/Campeonato_Acreano_de_Futebol_de_2025'},
-    'AM': {'Amazonense', 'Campeonato Amazonense de Futebol', 'Campeonato Amazonense de Futebol', 'http://www.fafamazonas.com.br/site/', 'https://www.fafamazonas.com.br/site/', 'https://pt.wikipedia.org/wiki/Campeonato_Amazonense_de_Futebol_de_2025'},
-    'RR': {'Roraimense', 'Campeonato Roraimense de Futebol', 'Campeonato Roraimense de Futebol', 'https://pt.wikipedia.org/wiki/Federa%C3%A7%C3%A3o_Roraimense_de_Futebol', 'https://pt.wikipedia.org/wiki/Federa%C3%A7%C3%A3o_Roraimense_de_Futebol', 'https://pt.wikipedia.org/wiki/Campeonato_Roraimense_de_Futebol_de_2026'},
-    'PA': {'Paraense', 'Campeonato Paraense de Futebol', 'Campeonato Paraense de Futebol - Serie A', 'https://www.fpfpara.com.br/', 'https://www.fpfpara.com.br/competicao/95', 'https://pt.wikipedia.org/wiki/Campeonato_Paraense_de_Futebol_de_2026_-_S%C3%A9rie_A'},
-    'AP': {'Amapazao', 'Campeonato Amapense de Futebol', 'Campeonato Amapense de Futebol - Serie A', 'https://fafamapa.com.br/', 'https://fafamapa.com.br/competicao/95', 'https://pt.wikipedia.org/wiki/Campeonato_Amapense_de_Futebol_de_2026'},
-    'TO': {'Tocantinense', 'Campeonato Tocantinense de Futebol', 'Campeonato Tocantinense de Futebol', 'https://www.ftf.org.br/', 'https://www.ftf.org.br/federacao;page=Clubes;id=44', 'https://pt.wikipedia.org/wiki/Campeonato_Tocantinense_de_Futebol_de_2025'},
-    'MA': {'Maranhense', 'Campeonato Maranhense de Futebol', 'Campeonato Maranhense de Futebol', 'https://www.futebolmaranhense.com.br/', 'https://www.futebolmaranhense.com.br/conteudo/27/14', 'https://pt.wikipedia.org/wiki/Campeonato_Maranhense_de_Futebol'},
-    'PI': {'Piauiense', 'Campeonato Piauiense de Futebol', 'Campeonato Piauiense de Futebol', 'https://ffp-pi.com.br/', 'https://ffp-pi.com.br/competicoes/tabela/1628', 'https://pt.wikipedia.org/wiki/Campeonato_Piauiense_de_Futebol_de_2025'},
-    'RN': {'Potiguar', 'Campeonato Potiguar de Futebol', 'Campeonato Potiguar de Futebol', 'https://fnf.org.br/', 'https://fnf.org.br/tabela/195/estadual-primeira-divisao-2026', 'https://pt.wikipedia.org/wiki/Campeonato_Potiguar_de_Futebol_de_2025'},
-    'PB': {'Paraibano', 'Campeonato Paraibano de Futebol', 'Campeonato Paraibano de Futebol', 'https://federacaopbfutebol.com.br/pt/home/', 'https://federacaopbfutebol.com.br/pt/home/', 'https://pt.wikipedia.org/wiki/Campeonato_Paraibano_de_Futebol_de_2026'},
-    'AL': {'Alagoano', 'Campeonato Alagoano de Futebol', 'Campeonato Alagoano de Futebol', 'https://www.futeboldealagoas.net/novo/', 'https://www.futeboldealagoas.net/novo/tabela?ID=1642', 'https://pt.wikipedia.org/wiki/Campeonato_Alagoano_de_Futebol'},
-    'SE': {'Sergipao', 'Campeonato Sergipano de Futebol', 'Campeonato Sergipano de Futebol', 'https://fsf-se.com.br/', 'https://fsf-se.com.br/camp/campeonato-sergipano-2026/', 'https://pt.wikipedia.org/wiki/Campeonato_Sergipano_de_Futebol_de_2026'},
-} 
 
-# League Information (Campeonatos Estudais)
-CAMPEONATOS_ESTADUAIS = {
-    'paulistao': 'https://pt.wikipedia.org/wiki/Campeonato_Paulista_de_Futebol_de_2026',
-    'carioca': 'https://pt.wikipedia.org/wiki/Campeonato_Carioca_de_Futebol_de_2026',
-    'mineiro': 'https://pt.wikipedia.org/wiki/Campeonato_Mineiro_de_Futebol_de_2026_-_M%C3%B3dulo_I',
-    }
-
-CAMPEONATOS_NACIONAIS = {
-    'brasileirao': {'https://pt.wikipedia.org/wiki/Campeonato_Brasileiro_de_Futebol_de_2026_-_S%C3%A9rie_A', 'https://www.cbf.com.br/', 'https://www.cbf.com.br/futebol-brasileiro/tabelas/campeonato-brasileiro/serie-a/2026'},
-    'libertadores': 'https://pt.wikipedia.org/wiki/Copa_Libertadores_da_Am%C3%A9rica_de_2026',
-    'copa-brasil': 'https://pt.wikipedia.org/wiki/Copa_do_Brasil_de_Futebol_de_2026',
+TEAMS = {
+    'Athletico Paranaense': 'https://pt.wikipedia.org/wiki/Club_Athletico_Paranaense',
+    'Atlético Mineiro': 'https://pt.wikipedia.org/wiki/Clube_Atlético_Mineiro',
+    'Bahia': 'https://pt.wikipedia.org/wiki/Esporte_Clube_Bahia',
+    'Botafogo': 'https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas',
+    'Chapecoense': 'https://pt.wikipedia.org/wiki/Associação_Chapecoense_de_Futebol',
+    'Corinthians': 'https://pt.wikipedia.org/wiki/Sport_Club_Corinthians_Paulista',
+    'Coritiba': 'https://pt.wikipedia.org/wiki/Coritiba_Foot_Ball_Club',
+    'Cruzeiro': 'https://pt.wikipedia.org/wiki/Cruzeiro_Esporte_Clube',
+    'Flamengo': 'https://pt.wikipedia.org/wiki/Clube_de_Regatas_do_Flamengo',
+    'Fluminense': 'https://pt.wikipedia.org/wiki/Fluminense_Football_Club',
+    'Grêmio': 'https://pt.wikipedia.org/wiki/Grêmio_Foot-Ball_Porto_Alegrense',
+    'Internacional': 'https://pt.wikipedia.org/wiki/Sport_Club_Internacional',
+    'Mirassol': 'https://pt.wikipedia.org/wiki/Mirassol_Futebol_Clube',
+    'Palmeiras': 'https://pt.wikipedia.org/wiki/Sociedade_Esportiva_Palmeiras',
+    'Red Bull Bragantino': 'https://pt.wikipedia.org/wiki/Red_Bull_Bragantino',
+    'Remo': 'https://pt.wikipedia.org/wiki/Clube_do_Remo',
+    'Santos': 'https://pt.wikipedia.org/wiki/Santos_Futebol_Clube',
+    'São Paulo': 'https://pt.wikipedia.org/wiki/São_Paulo_Futebol_Clube',
+    'Vasco da Gama': 'https://pt.wikipedia.org/wiki/Club_de_Regatas_Vasco_da_Gama',
+    'Vitória': 'https://pt.wikipedia.org/wiki/Esporte_Clube_Vitória'
 }
 
-CAMPEONATOS_INTERNACIONAIS = {
-    'libertadores': 'https://pt.wikipedia.org/wiki/Copa_Libertadores_da_Am%C3%A9rica_de_2026',
-}
-
-CAMPEONATOS = {
-    'paulistao': 'https://pt.wikipedia.org/wiki/Campeonato_Paulista_de_Futebol_de_2026',
-    'carioca': 'https://pt.wikipedia.org/wiki/Campeonato_Carioca_de_Futebol_de_2026',
-    'mineiro': 'https://pt.wikipedia.org/wiki/Campeonato_Mineiro_de_Futebol_de_2026_-_M%C3%B3dulo_I',
-    'brasileirao': 'https://pt.wikipedia.org/wiki/Campeonato_Brasileiro_de_Futebol_de_2026_-_S%C3%A9rie_A',
-    'libertadores': 'https://pt.wikipedia.org/wiki/Copa_Libertadores_da_Am%C3%A9rica_de_2026',
-    'copa-brasil': 'https://pt.wikipedia.org/wiki/Copa_do_Brasil_de_Futebol_de_2026',
-}
+LEAGUES = ["brasileiro26"]
 
 def slugify(text):
     """Convert team name to URL-friendly slug"""
@@ -82,6 +56,70 @@ def slugify(text):
     text = re.sub(r'[^a-z0-9]+', '-', text)
     text = text.strip('-')
     return text
+
+def load_teams_json():
+    """Load existing teams from data/teams.json"""
+    teams_json_path = DATA_DIR / 'teams.json'
+    if not teams_json_path.exists():
+        return {"teams": []}
+
+    with open(teams_json_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def save_teams_json(data):
+    """Save teams data to data/teams.json"""
+    teams_json_path = DATA_DIR / 'teams.json'
+    with open(teams_json_path, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    print("[OK] Updated teams.json with " + str(len(data.get('teams', []))) + " teams")
+
+def get_team_by_id(teams_data, team_id):
+    """Find a team by ID in the teams list"""
+    for team in teams_data.get('teams', []):
+        if team.get('id') == team_id:
+            return team
+    return None
+
+def add_or_update_team(teams_data, team_info, tournaments_to_add):
+    """Add a new team or update existing team's tournaments
+
+    Args:
+        teams_data: The teams.json data structure
+        team_info: Team information dict
+        tournaments_to_add: List of tournament IDs to add
+
+    Returns:
+        tuple: (is_new_team, tournaments_added)
+    """
+    team_id = team_info.get('id')
+    existing_team = get_team_by_id(teams_data, team_id)
+
+    if existing_team:
+        # Update tournaments if not already present
+        tournaments_added = []
+        for tournament_id in tournaments_to_add:
+            if tournament_id and tournament_id not in existing_team.get('tournaments', []):
+                existing_team.setdefault('tournaments', []).append(tournament_id)
+                tournaments_added.append(tournament_id)
+        return False, tournaments_added  # Not a new team
+    else:
+        # Add new team
+        new_team = {
+            "id": team_id,
+            "name": team_info.get('name'),
+            "slug": team_info.get('slug', team_id),
+            "logo": "/assets/times/" + team_id + ".png",
+            "state": team_info.get('state', ''),
+            "stadium": team_info.get('stadium', ''),
+            "founded": team_info.get('founded', 0),
+            "tournaments": list(tournaments_to_add) if tournaments_to_add else [],
+            "colors": {
+                "primary": "#000000",
+                "secondary": "#FFFFFF"
+            }
+        }
+        teams_data['teams'].append(new_team)
+        return True, tournaments_to_add  # New team added
 
 def extract_teams_from_league(url, league_name):
     """Extract team names and Wikipedia URLs from league page"""
@@ -253,57 +291,81 @@ def create_team_page(team_data, league_name):
     return True
 
 def generate_all_team_pages():
-    """Generate team pages for all leagues"""
+    """Generate team pages using TEAMS dictionary as source"""
     print("=" * 60)
-    print("TEAM PAGE GENERATOR - From Wikipedia League Data")
+    print("TEAM PAGE GENERATOR - From TEAMS Dictionary")
     print("=" * 60)
     print()
-    
+
+    # Load existing teams.json
+    teams_json_data = load_teams_json()
+    print("[INFO] Loaded " + str(len(teams_json_data.get('teams', []))) + " existing teams from teams.json")
+    print("[INFO] Processing " + str(len(TEAMS)) + " teams from TEAMS dictionary")
+    print("-" * 60)
+
     all_teams = {}
     total_created = 0
     total_skipped = 0
-    
-    for league_slug, league_url in CAMPEONATOS.items():
-        print("\n[LEAGUE] Processing: " + league_slug)
-        print("-" * 60)
-        
-        # Extract teams from Wikipedia
-        teams_data = extract_teams_from_league(league_url, league_slug)
-        
-        # Create pages for each team
-        for team_name, team_data in teams_data.items():
-            if create_team_page(team_data, league_slug.title()):
-                total_created += 1
-            else:
-                total_skipped += 1
-            
-            # Store team info with Wikipedia URL
-            if team_name not in all_teams:
-                all_teams[team_name] = {'leagues': [], 'wiki_url': team_data.get('wiki_url', '')}
-            all_teams[team_name]['leagues'].append(league_slug)
-        
-        time.sleep(2)  # Be nice to Wikipedia
-    
+    new_teams_added = 0
+    tournaments_updated = 0
+
+    # Iterate over TEAMS dictionary directly
+    for team_name, wiki_url in TEAMS.items():
+        team_data = {
+            'name': team_name,
+            'wiki_url': wiki_url
+        }
+
+        # Create team page
+        if create_team_page(team_data, "Brasileiro"):
+            total_created += 1
+        else:
+            total_skipped += 1
+
+        # Store team info
+        all_teams[team_name] = {'leagues': LEAGUES, 'wiki_url': wiki_url}
+
+        # Prepare team info for teams.json
+        team_id = slugify(team_name)
+        team_info = {
+            'id': team_id,
+            'name': team_name,
+            'slug': team_id,
+            'state': '',
+            'stadium': '',
+            'founded': 0
+        }
+
+        # Add or update team in teams.json with all LEAGUES
+        is_new, added_tournaments = add_or_update_team(teams_json_data, team_info, LEAGUES)
+        if is_new:
+            new_teams_added += 1
+            print("[NEW] Added to teams.json: " + team_name)
+        elif added_tournaments:
+            tournaments_updated += 1
+            print("[UPDATE] Added tournaments " + str(added_tournaments) + " to: " + team_name)
+
+        time.sleep(0.5)  # Small delay
+
     print("\n" + "=" * 60)
     print("[SUCCESS] Team page generation complete!")
     print("[STATS] Created: " + str(total_created) + " pages")
     print("[STATS] Skipped: " + str(total_skipped) + " pages (already exist)")
+    print("[STATS] New teams added to teams.json: " + str(new_teams_added))
+    print("[STATS] Existing teams with tournaments updated: " + str(tournaments_updated))
+    print("[INFO] Leagues applied: " + str(LEAGUES))
     print("[INFO] Pages saved to: " + str(TEAMS_DIR))
     print("=" * 60)
-    
-    print("[INFO] Pages saved to: " + str(TEAMS_DIR))
-    print("=" * 60)
-    
-    # Save basic team data to JSON
-    data_dir = BASE_DIR / 'data'
-    data_dir.mkdir(parents=True, exist_ok=True)
-    json_path = data_dir / 'teams_data.json'
-    
-    import json
+
+    # Save updated teams.json
+    save_teams_json(teams_json_data)
+
+    # Save basic team data to JSON (legacy format)
+    json_path = DATA_DIR / 'teams_data.json'
     with open(json_path, 'w', encoding='utf-8') as f:
         json.dump(all_teams, f, ensure_ascii=False, indent=2)
     print("[OK] Saved team data to: " + str(json_path))
-    
+
     # Create index file
     create_teams_index(all_teams)
 
