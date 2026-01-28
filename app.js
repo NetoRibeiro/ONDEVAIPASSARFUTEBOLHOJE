@@ -77,7 +77,8 @@ const elements = {
   matchesContainer: document.getElementById('matchesContainer'),
   emptyState: document.getElementById('emptyState'),
   loadingState: document.getElementById('loadingState'),
-  quickAccessChips: document.querySelectorAll('.team-chip')
+  quickAccessChips: document.querySelectorAll('.team-chip'),
+  matchesSectionTitle: document.getElementById('matchesSectionTitle')
 };
 
 // === UTILITY FUNCTIONS ===
@@ -254,6 +255,31 @@ function renderMatches(matches) {
 
 function updateDateDisplay() {
   elements.currentDateEl.textContent = formatDate(currentDate);
+  updateSectionTitle();
+}
+
+function updateSectionTitle() {
+  if (!elements.matchesSectionTitle) return;
+
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  let title;
+  if (isSameDay(currentDate, today)) {
+    title = 'Jogos de Hoje';
+  } else if (isSameDay(currentDate, yesterday)) {
+    title = 'Jogos de Ontem';
+  } else if (isSameDay(currentDate, tomorrow)) {
+    title = 'Jogos de Amanhã';
+  } else {
+    const dateStr = currentDate.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' });
+    title = `Jogos de ${dateStr}`;
+  }
+
+  elements.matchesSectionTitle.textContent = title;
 }
 
 // === FILTER & SEARCH FUNCTIONS ===
